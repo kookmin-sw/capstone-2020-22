@@ -34,17 +34,17 @@
 
 ### 3. 팀 소개
 
-임다운
+임다운 ( ldu0131@naver.com )
 
-구윤모
+구윤모 ( starkoo06@kookmin.ac.kr )
 
-김명진
+김명진 ( audwlsdl1729@gmail.com )
 
-김종현
+김종현 ( jinos01@naver.com )
 
 오몽
 
-정현구
+정현구 ( jhg3522@kookmin.ac.kr )
 
 ### 4. 사용법
 
