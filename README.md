@@ -21,7 +21,7 @@
 
 김종현 ( jinos01@naver.com )
 
-오몽
+오몽 ( wm362150699@kookmin.ac.kr )
 
 정현구 ( jhg3522@kookmin.ac.kr )
 
