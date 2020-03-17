@@ -12,7 +12,7 @@
 프로젝트 소개하는 영상을 추가하세요
 
 ### 3. 팀 소개
-
+<img src=https://user-images.githubusercontent.com/48586615/76824621-04333980-685b-11ea-940a-4d8543b7902e.jpg  width="40" height="100"/>
 ```
 이름 : 임다운 ( ldu0131@naver.com )
 학번 : 20153219
