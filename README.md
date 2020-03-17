@@ -12,18 +12,41 @@
 프로젝트 소개하는 영상을 추가하세요
 
 ### 3. 팀 소개
+```
+이름 : 임다운 ( ldu0131@naver.com )
+학번 : 20153219
+역할 : UI 설계, 어플 제작 및 관련  
+```
 
-임다운 ( ldu0131@naver.com )
+```
+이름 : 구윤모 ( starkoo06@kookmin.ac.kr )
+학번 :
+역할 :
+```
 
-구윤모 ( starkoo06@kookmin.ac.kr )
+```
+이름 : 김명진 ( audwlsdl1729@gmail.com )
+학번 :
+역할 :
+```
 
-김명진 ( audwlsdl1729@gmail.com )
+```
+이름 : 김종현 ( jinos01@naver.com )
+학번 :
+역할 :
+```
 
-김종현 ( jinos01@naver.com )
+```
+이름 : 오몽 ( wm362150699@kookmin.ac.kr )
+학번 :
+역할 :
+```
 
-오몽 ( wm362150699@kookmin.ac.kr )
-
-정현구 ( jhg3522@kookmin.ac.kr )
+```
+이름 : 정현구 ( jhg3522@kookmin.ac.kr )
+학번 :
+역할 :
+```
 
 ### 4. 사용법
 
