@@ -20,10 +20,12 @@
 역할 : UI 설계 및 디자인, 어플 제작 및 API 개발 
 ```
 
+<img src=https://user-images.githubusercontent.com/51355048/77217129-62b22d80-6b63-11ea-9c11-ee7f7e67d2a8.jpg width="300" height="400"/>
+
 ```
 이름 : 구윤모 ( starkoo06@kookmin.ac.kr )
-학번 :
-역할 :
+학번 : 20153151
+역할 : AR, API 개발, UI 설계
 ```
 <img src=https://user-images.githubusercontent.com/37772497/77216635-30063600-6b5f-11ea-91f7-f89bcb6fadb3.jpg width="300" height="400"/>
 
