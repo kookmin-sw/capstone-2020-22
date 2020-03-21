@@ -25,11 +25,12 @@
 학번 :
 역할 :
 ```
+<img src=https://user-images.githubusercontent.com/37772497/77216635-30063600-6b5f-11ea-91f7-f89bcb6fadb3.jpg width="300" height="400"/>
 
 ```
 이름 : 김명진 ( audwlsdl1729@gmail.com )
-학번 :
-역할 :
+학번 : 20153156
+역할 : AR, API 개발 및 AWS 연동
 ```
 
 ```
@@ -44,12 +45,10 @@
 역할 :
 ```
 
-<img src= https://user-images.githubusercontent.com/50823103/77216532-4c55a300-6b5e-11ea-8f3d-317c51db7657.jpg width="300" height="400"/>
-
 ```
 이름 : 정현구 ( jhg3522@kookmin.ac.kr )
-학번 : 20175167
-역할 : 길찾기 api 적용
+학번 :
+역할 :
 ```
 
 ### 4. 사용법
