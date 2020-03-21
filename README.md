@@ -1,4 +1,4 @@
-# Welcome to TravelAR
+# 길 찾아줄까? " NavigatAR "
 
 **팀페이지 주소** -> https://kookmin-sw.github.io/capstone-2020-22/
 
@@ -17,7 +17,7 @@
 ```
 이름 : 임다운 ( ldu0131@naver.com )
 학번 : 20153219
-역할 : UI 설계, 어플 제작 및 관련  
+역할 : UI 설계 및 디자인, 어플 제작 및 API   
 ```
 
 ```
