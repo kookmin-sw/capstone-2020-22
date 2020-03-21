@@ -39,6 +39,7 @@
 역할 :
 ```
 <img src= https://user-images.githubusercontent.com/50823103/77216532-4c55a300-6b5e-11ea-8f3d-317c51db7657.jpg width="300" height="400"/>
+
 ```
 이름 : 정현구 ( jhg3522@kookmin.ac.kr )
 학번 : 20175167
