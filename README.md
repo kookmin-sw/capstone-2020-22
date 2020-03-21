@@ -32,11 +32,12 @@
 학번 : 20153156
 역할 : AR, API 개발 및 AWS 연동
 ```
+<img src= https://user-images.githubusercontent.com/48206224/77216726-e23dfd80-6b5f-11ea-9969-67a74ffa8dfc.jpg width="300" height="400"/>
 
 ```
 이름 : 김종현 ( jinos01@naver.com )
-학번 :
-역할 :
+학번 : 20153164
+역할 : 어플 제작 및 백엔드 개발
 ```
 <img src= https://user-images.githubusercontent.com/50823103/77216532-4c55a300-6b5e-11ea-8f3d-317c51db7657.jpg width="300" height="400"/>
 
