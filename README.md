@@ -4,7 +4,7 @@
 
 <img src=https://user-images.githubusercontent.com/50823103/77314893-e9286400-6d49-11ea-8793-958bdae378b3.png  width="500" height="200"/>
 
-### 1. 프로잭트 소개
+### 1. 프로젝트 
 
 기존의 길찾기 서비스를 이용할 때 스마트폰을 쳐다보며 이동하기때문에 사고의 위험이 있다.
 
