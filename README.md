@@ -3,6 +3,7 @@
 **팀페이지 주소** -> https://kookmin-sw.github.io/capstone-2020-22/
 
 <img src=https://user-images.githubusercontent.com/50823103/77314893-e9286400-6d49-11ea-8793-958bdae378b3.png  width="500" height="200"/>
+
 ### 1. 프로잭트 소개
 
 기존의 길찾기 서비스를 이용할 때 스마트폰을 쳐다보며 이동하기때문에 사고의 위험이 있다.
@@ -25,12 +26,19 @@
 
 - 휴대폰 화면과 비교하여 대략적인 위치가 아닌, 직관적인 길찾기
 
+### 2. Abstract
+There is a risk of accidents because people look at their smartphones while using the existing directions service.
+In addition, it is often difficult to find the exact destination because it is difficult to check your smartphone from time to time using a bicycle or an electric kickboard and follow the path shown on the map, not on the actual screen.
+Especially first-time visitors and tourists face more of these problems.
+"NavigatAR" provides a safe and intuitive service through AR glass to handle these problems.
+As a main function, if you enter the destination based on the current location in the application, an arrow leads the way in the AR glass.
+In addition, it provides more convenient tourism services by providing tourist information on the surrounding areas such as attractions, accommodations and restaurants.
 
-### 2. 소개 영상
+### 3. 소개 영상
 
 프로젝트 소개하는 영상을 추가하세요
 
-### 3. 팀 소개
+### 4. 팀 소개
 <img src=https://user-images.githubusercontent.com/48586615/76824621-04333980-685b-11ea-940a-4d8543b7902e.jpg  width="300" height="400"/>
 
 ```
@@ -84,30 +92,3 @@
 추가적인 내용은 자유롭게 작성하세요.
 
 
-## Markdown을 사용하여 내용꾸미기
-
-Markdown은 작문을 스타일링하기위한 가볍고 사용하기 쉬운 구문입니다. 여기에는 다음을위한 규칙이 포함됩니다.
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-자세한 내용은 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Support or Contact
-
-readme 파일 생성에 추가적인 도움이 필요하면 [도움말](https://help.github.com/articles/about-readmes/) 이나 [contact support](https://github.com/contact) 을 이용하세요.
