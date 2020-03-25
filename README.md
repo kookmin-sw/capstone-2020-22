@@ -75,11 +75,12 @@ In addition, it provides more convenient tourism services by providing tourist i
 학번 : 20175167
 역할 : 프론트엔드 개발 및 길찾기 api
 ```
+<img src= https://user-images.githubusercontent.com/48586615/77584204-c488e380-6f25-11ea-9e30-4a3097cec39f.jpg width="300" height="400"/>
 
 ```
 이름 : 오몽 ( wm362150699@kookmin.ac.kr )
-학번 :
-역할 :
+학번 : 20163656
+역할 : 어플 제작 및 자료 조사
 ```
 
 
