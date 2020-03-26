@@ -1,7 +1,5 @@
 # 길 찾아줄까? "NavigatAR"
 
-<img src=https://user-images.githubusercontent.com/50823103/77314893-e9286400-6d49-11ea-8793-958bdae378b3.png  width="500" height="200"/>
-
 ### 1. 프로젝트 
 
 기존의 길찾기 서비스를 이용할 때 스마트폰을 쳐다보며 이동하기때문에 사고의 위험이 있다.
@@ -37,43 +35,35 @@ In addition, it provides more convenient tourism services by providing tourist i
 프로젝트 소개하는 영상을 추가하세요
 
 ### 4. 팀 소개
-<img src=https://user-images.githubusercontent.com/48586615/76824621-04333980-685b-11ea-940a-4d8543b7902e.jpg  width="300" height="400"/>
-
 ```
 이름 : 임다운 ( ldu0131@naver.com )
 학번 : 20153219
 역할 : UI 설계 및 디자인, 어플 제작 및 API 개발 
 ```
 
-<img src=https://user-images.githubusercontent.com/51355048/77217129-62b22d80-6b63-11ea-9c11-ee7f7e67d2a8.jpg width="300" height="400"/>
-
 ```
 이름 : 구윤모 ( starkoo06@kookmin.ac.kr )
 학번 : 20153151
 역할 : AR, API 개발, UI 설계
 ```
-<img src=https://user-images.githubusercontent.com/37772497/77216635-30063600-6b5f-11ea-91f7-f89bcb6fadb3.jpg width="300" height="400"/>
 
 ```
 이름 : 김명진 ( audwlsdl1729@gmail.com )
 학번 : 20153156
 역할 : AR, API 개발 및 AWS 연동
 ```
-<img src= https://user-images.githubusercontent.com/48206224/77216726-e23dfd80-6b5f-11ea-9969-67a74ffa8dfc.jpg width="300" height="400"/>
 
 ```
 이름 : 김종현 ( jinos01@naver.com )
 학번 : 20153164
 역할 : 어플 제작 및 백엔드 개발
 ```
-<img src= https://user-images.githubusercontent.com/50823103/77216532-4c55a300-6b5e-11ea-8f3d-317c51db7657.jpg width="300" height="400"/>
 
 ```
 이름 : 정현구 ( jhg3522@kookmin.ac.kr )
 학번 : 20175167
 역할 : 프론트엔드 개발 및 길찾기 api
 ```
-<img src= https://user-images.githubusercontent.com/48586615/77584204-c488e380-6f25-11ea-9e30-4a3097cec39f.jpg width="300" height="400"/>
 
 ```
 이름 : 오몽 ( wm362150699@kookmin.ac.kr )
