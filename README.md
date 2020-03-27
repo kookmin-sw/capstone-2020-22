@@ -4,7 +4,7 @@
 
 <img src=https://user-images.githubusercontent.com/50823103/77314893-e9286400-6d49-11ea-8793-958bdae378b3.png  width="500" height="200"/>
 
-### 1. 프로젝트 
+### 1. 프로젝트 개요
 
 기존의 길찾기 서비스를 이용할 때 스마트폰을 쳐다보며 이동하기때문에 사고의 위험이 있다.
 
@@ -26,19 +26,8 @@
 
 - 휴대폰 화면과 비교하여 대략적인 위치가 아닌, 직관적인 길찾기
 
-### 2. Abstract
-There is a risk of accidents because people look at their smartphones while using the existing directions service.
-In addition, it is often difficult to find the exact destination because it is difficult to check your smartphone from time to time using a bicycle or an electric kickboard and follow the path shown on the map, not on the actual screen.
-Especially first-time visitors and tourists face more of these problems.
-"NavigatAR" provides a safe and intuitive service through AR glass to handle these problems.
-As a main function, if you enter the destination based on the current location in the application, an arrow leads the way in the AR glass.
-In addition, it provides more convenient tourism services by providing tourist information on the surrounding areas such as attractions, accommodations and restaurants.
 
-### 3. 소개 영상
-
-프로젝트 소개하는 영상을 추가하세요
-
-### 4. 팀 소개
+### 2. 팀 소개
 <img src=https://user-images.githubusercontent.com/48586615/76824621-04333980-685b-11ea-940a-4d8543b7902e.jpg  width="300" height="400"/>
 
 ```
@@ -83,13 +72,16 @@ In addition, it provides more convenient tourism services by providing tourist i
 역할 : 어플 제작 및 자료 조사
 ```
 
+### 3. Abstract
+There is a risk of accidents because people look at their smartphones while using the existing directions service.
+In addition, it is often difficult to find the exact destination because it is difficult to check your smartphone from time to time using a bicycle or an electric kickboard and follow the path shown on the map, not on the actual screen.
+Especially first-time visitors and tourists face more of these problems.
+"NavigatAR" provides a safe and intuitive service through AR glass to handle these problems.
+As a main function, if you enter the destination based on the current location in the application, an arrow leads the way in the AR glass.
+In addition, it provides more convenient tourism services by providing tourist information on the surrounding areas such as attractions, accommodations and restaurants.
 
-### 4. 사용법
+### 4. 소개 영상
 
-소스코드제출시 설치법이나 사용법을 작성하세요.
-
-### 5. 기타
-
-추가적인 내용은 자유롭게 작성하세요.
+[![Video Label](http://img.youtube.com/vi/BuSh0ZfSmU0/0.jpg)](https://youtu.be/BuSh0ZfSmU0?t=0s)
 
 
