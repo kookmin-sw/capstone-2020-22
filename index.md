@@ -2,7 +2,7 @@
 
 **팀페이지 주소** -> https://kookmin-sw.github.io/capstone-2020-22/
 
-![navigatAR](https://user-images.githubusercontent.com/50823103/77314893-e9286400-6d49-11ea-8793-958bdae378b3.png )
+[![navigatAR]<img src=https://user-images.githubusercontent.com/50823103/77314893-e9286400-6d49-11ea-8793-958bdae378b3.png  width="500" height="200"/>]
 
 ### 1. 프로젝트 개요
 
