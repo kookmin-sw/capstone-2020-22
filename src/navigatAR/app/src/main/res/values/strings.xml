@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">NavigatAR</string>
+    <string name="mapbox_access_token">pk.eyJ1Ijoia29veW0iLCJhIjoiY2s3YTdkdnVwMDA0dTNkbnk2cHJnMDRhdCJ9.pz5-DV7qY1vr9LgNPEZJhg</string>
+</resources>

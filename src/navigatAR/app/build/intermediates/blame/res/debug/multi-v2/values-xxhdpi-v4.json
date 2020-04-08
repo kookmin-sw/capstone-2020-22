@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\stark\\AndroidStudioProjects\\capstone-2020-22\\src\\navigatAR\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-xxhdpi-v4\\values-xxhdpi-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\stark\\.gradle\\caches\\transforms-2\\files-2.1\\6e90c9e12cc87e2a012d7f11a3e20def\\jetified-mapbox-android-navigation-ui-0.43.0-alpha.1\\res\\values-xxhdpi-v4\\values-xxhdpi-v4.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,110",
+                        "endColumns": "54,47",
+                        "endOffsets": "105,153"
+                    }
+                }
+            ]
+        }
+    ]
+}
