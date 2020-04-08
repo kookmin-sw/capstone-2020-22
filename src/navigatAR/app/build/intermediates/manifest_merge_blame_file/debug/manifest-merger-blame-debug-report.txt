@@ -1,0 +1,150 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.capstone.navigatAR"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+8-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+11-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:5:5-79
+11-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:5:22-76
+12    <uses-permission android:name="android.permission.CAMERA" />
+12-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:6:5-65
+12-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:6:22-62
+13    <uses-permission android:name="android.permission.INTERNET" />
+13-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:7:5-66
+13-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:7:22-64
+14    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+14-->[com.mapbox.mapboxsdk:mapbox-android-navigation:0.43.0-alpha.1] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\9f045411efbbdfd7579eb74f9285ece8\mapbox-android-navigation-0.43.0-alpha.1\AndroidManifest.xml:9:5-77
+14-->[com.mapbox.mapboxsdk:mapbox-android-navigation:0.43.0-alpha.1] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\9f045411efbbdfd7579eb74f9285ece8\mapbox-android-navigation-0.43.0-alpha.1\AndroidManifest.xml:9:22-74
+15
+16    <uses-feature
+16-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:9:5-11:35
+17        android:glEsVersion="0x00020000"
+17-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:10:9-41
+18        android:required="true" />
+18-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:11:9-32
+19    <uses-feature
+19-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:12:5-14:36
+20        android:name="android.hardware.wifi"
+20-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:13:9-45
+21        android:required="false" />
+21-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:14:9-33
+22
+23    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+23-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:17:5-79
+23-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:17:22-76
+24    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Required for CrashReporterJobIntentService on API levels below 25 -->
+24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:18:5-76
+24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\302004ee8695da67aa50476aa78819c2\mapbox-android-sdk-9.1.0\AndroidManifest.xml:18:22-73
+25    <uses-permission android:name="android.permission.WAKE_LOCK" />
+25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:12:5-68
+25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:12:22-65
+26
+27    <application
+27-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:8:5-25:19
+28        android:allowBackup="true"
+28-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:9:9-35
+29        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+29-->[androidx.core:core:1.1.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\da95e0dd41fd0c634661df2a0f122634\core-1.1.0\AndroidManifest.xml:24:18-86
+30        android:debuggable="true"
+31        android:extractNativeLibs="false"
+32        android:icon="@mipmap/ic_launcher"
+32-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:10:9-43
+33        android:label="@string/app_name"
+33-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:11:9-41
+34        android:roundIcon="@mipmap/ic_launcher_round"
+34-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:12:9-54
+35        android:supportsRtl="true"
+35-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:13:9-35
+36        android:testOnly="true"
+37        android:theme="@style/AppTheme" >
+37-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:14:9-40
+38        <activity android:name="com.capstone.navigatAR.MainActivity" >
+38-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:15:9-20:20
+38-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:15:19-47
+39            <intent-filter>
+39-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:16:13-19:29
+40                <action android:name="android.intent.action.MAIN" />
+40-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:17:17-69
+40-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:17:25-66
+41
+42                <category android:name="android.intent.category.LAUNCHER" />
+42-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:18:17-77
+42-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:18:27-74
+43            </intent-filter>
+44        </activity>
+45        <activity
+45-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:21:9-23:58
+46            android:name="com.capstone.navigatAR.NavigationActivity"
+46-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:22:13-47
+47            android:theme="@style/AppTheme.NoActionBar" />
+47-->C:\Users\stark\AndroidStudioProjects\capstone-2020-22\src\navigatAR\app\src\main\AndroidManifest.xml:23:13-56
+48        <activity android:name="com.mapbox.services.android.navigation.ui.v5.MapboxNavigationActivity" />
+48-->[com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.43.0-alpha.1] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\6e90c9e12cc87e2a012d7f11a3e20def\jetified-mapbox-android-navigation-ui-0.43.0-alpha.1\AndroidManifest.xml:10:9-106
+48-->[com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.43.0-alpha.1] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\6e90c9e12cc87e2a012d7f11a3e20def\jetified-mapbox-android-navigation-ui-0.43.0-alpha.1\AndroidManifest.xml:10:19-103
+49
+50        <service android:name="com.mapbox.services.android.navigation.v5.internal.navigation.NavigationService" />
+50-->[com.mapbox.mapboxsdk:mapbox-android-navigation:0.43.0-alpha.1] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\9f045411efbbdfd7579eb74f9285ece8\mapbox-android-navigation-0.43.0-alpha.1\AndroidManifest.xml:12:9-115
+50-->[com.mapbox.mapboxsdk:mapbox-android-navigation:0.43.0-alpha.1] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\9f045411efbbdfd7579eb74f9285ece8\mapbox-android-navigation-0.43.0-alpha.1\AndroidManifest.xml:12:18-112
+51
+52        <activity
+52-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\e2c213d4dfcecf7d0961805c3c2450f7\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+53            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+53-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\e2c213d4dfcecf7d0961805c3c2450f7\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+54            android:exported="false"
+54-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\e2c213d4dfcecf7d0961805c3c2450f7\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+55            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+55-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\e2c213d4dfcecf7d0961805c3c2450f7\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+56
+57        <meta-data
+57-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\752a983649401b2c06f8f162da3a35f7\play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+58            android:name="com.google.android.gms.version"
+58-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\752a983649401b2c06f8f162da3a35f7\play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+59            android:value="@integer/google_play_services_version" />
+59-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\752a983649401b2c06f8f162da3a35f7\play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+60
+61        <provider
+61-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:18:9-22:39
+62            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
+62-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:19:13-93
+63            android:authorities="com.capstone.navigatAR.mapboxtelemetryinitprovider"
+63-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:20:13-79
+64            android:exported="false"
+64-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:21:13-37
+65            android:initOrder="100" />
+65-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:22:13-36
+66
+67        <service
+67-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:24:9-26:72
+68            android:name="com.mapbox.android.telemetry.crash.CrashReporterJobIntentService"
+68-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:25:13-92
+69            android:permission="android.permission.BIND_JOB_SERVICE" />
+69-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.0] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\12d979ab6ae3ef4a1d0178ece45b94df\mapbox-android-telemetry-5.0.0\AndroidManifest.xml:26:13-69
+70
+71        <provider
+71-->[com.squareup.picasso:picasso:2.71828] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2cde1e91dfa3b9f3b41de59e59e0b0ca\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+72            android:name="com.squareup.picasso.PicassoProvider"
+72-->[com.squareup.picasso:picasso:2.71828] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2cde1e91dfa3b9f3b41de59e59e0b0ca\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+73            android:authorities="com.capstone.navigatAR.com.squareup.picasso"
+73-->[com.squareup.picasso:picasso:2.71828] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2cde1e91dfa3b9f3b41de59e59e0b0ca\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+74            android:exported="false" />
+74-->[com.squareup.picasso:picasso:2.71828] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2cde1e91dfa3b9f3b41de59e59e0b0ca\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+75        <provider
+75-->[androidx.lifecycle:lifecycle-process:2.0.0-rc01] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2c5ab50a7f733b994a1e2604edbb3002\lifecycle-process-2.0.0-rc01\AndroidManifest.xml:23:9-27:43
+76            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+76-->[androidx.lifecycle:lifecycle-process:2.0.0-rc01] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2c5ab50a7f733b994a1e2604edbb3002\lifecycle-process-2.0.0-rc01\AndroidManifest.xml:24:13-79
+77            android:authorities="com.capstone.navigatAR.lifecycle-process"
+77-->[androidx.lifecycle:lifecycle-process:2.0.0-rc01] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2c5ab50a7f733b994a1e2604edbb3002\lifecycle-process-2.0.0-rc01\AndroidManifest.xml:25:13-69
+78            android:exported="false"
+78-->[androidx.lifecycle:lifecycle-process:2.0.0-rc01] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2c5ab50a7f733b994a1e2604edbb3002\lifecycle-process-2.0.0-rc01\AndroidManifest.xml:26:13-37
+79            android:multiprocess="true" />
+79-->[androidx.lifecycle:lifecycle-process:2.0.0-rc01] C:\Users\stark\.gradle\caches\transforms-2\files-2.1\2c5ab50a7f733b994a1e2604edbb3002\lifecycle-process-2.0.0-rc01\AndroidManifest.xml:27:13-40
+80    </application>
+81
+82</manifest>
