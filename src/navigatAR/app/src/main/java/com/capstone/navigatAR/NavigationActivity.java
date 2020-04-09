@@ -17,8 +17,12 @@ import com.mapbox.android.core.location.LocationEngineRequest;
 import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -28,15 +32,22 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
 import java.lang.ref.WeakReference;
 import java.security.acl.Permission;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback, MapboxMap.OnMapClickListener {
     private static final String TAG = NavigationActivity.class.getSimpleName();
     private long INTERVAL_IN_MILLISECONDS = 1000L;
     private long MAX_WAIT_TIME = INTERVAL_IN_MILLISECONDS * 5;
+    private static final String MARKER_SOURCE = "markers-source";
+    private static final String MARKER_STYLE_LAYER = "markers-style-layer";
+    private static final String MARKER_IMAGE = "custom-marker";
 
     private MapView mapView;
     private MapboxMap mapboxMap;
@@ -48,6 +59,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private Point destinationPos;
     double destinationX,destinationY;
     public static double lat, lng;
+    private Marker clickMarker;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -64,19 +76,24 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         NavigationActivity.this.mapboxMap = mapboxMap;
-
+        mapboxMap.addOnMapClickListener(NavigationActivity.this);
         mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/kooym/ck82rmy5h28js1ioa295dzgc7"), new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
-                mapboxMap.addOnMapClickListener(NavigationActivity.this);
             }
         });
     }
 
-
     @Override
     public boolean onMapClick(@NonNull LatLng point){
+        Log.e(TAG,"onMapClick 실행");
+        if(clickMarker!=null) //1개의 마커만 표시.
+            mapboxMap.removeMarker(clickMarker);
+
+        clickMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
+        destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+        myPos = Point.fromLngLat(lng,lat);
 
         return false;
     }
