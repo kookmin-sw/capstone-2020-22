@@ -17,8 +17,13 @@ import com.mapbox.android.core.location.LocationEngineRequest;
 import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.directions.v5.DirectionsCriteria;
+import com.mapbox.api.directions.v5.MapboxDirections;
+import com.mapbox.api.directions.v5.models.DirectionsResponse;
+import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
@@ -35,29 +40,37 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
+import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
 import java.lang.ref.WeakReference;
 import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.mapbox.core.constants.Constants.PRECISION_6;
+
 public class NavigationActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback, MapboxMap.OnMapClickListener {
     private static final String TAG = NavigationActivity.class.getSimpleName();
     private long INTERVAL_IN_MILLISECONDS = 1000L;
     private long MAX_WAIT_TIME = INTERVAL_IN_MILLISECONDS * 5;
-    private static final String MARKER_SOURCE = "markers-source";
-    private static final String MARKER_STYLE_LAYER = "markers-style-layer";
-    private static final String MARKER_IMAGE = "custom-marker";
 
     private MapView mapView;
     private MapboxMap mapboxMap;
     private PermissionsManager permissionsManager;
     private LocationEngine locationEngine;
     private NavigationActivityLocationCallback callback = new NavigationActivityLocationCallback(this);
+    private MapboxDirections client;
+    private static DirectionsRoute currentRoute;
+    private NavigationMapRoute navigationMapRoute;
 
     private Point myPos;
     private Point destinationPos;
-    double destinationX,destinationY;
+    double destinationLng,destinationLat;
     public static double lat, lng;
     private Marker clickMarker;
     @Override
@@ -95,6 +108,8 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         myPos = Point.fromLngLat(lng,lat);
 
+        getRoute(myPos,destinationPos); //
+        getRoute_navi(myPos,destinationPos,1);
         return false;
     }
 
@@ -157,6 +172,100 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 .setMaxWaitTime(MAX_WAIT_TIME).build();
         locationEngine.requestLocationUpdates(request, callback, getMainLooper());
         locationEngine.getLastLocation(callback);
+    }
+
+    private void drawRoute(DirectionsRoute route) { //지오코딩된 내용을 바탕으로 포인트에 값 저장
+        Log.e(TAG,"drawRoute 실행");
+        // Convert LineString coordinates into LatLng[]
+        LineString lineString = LineString.fromPolyline(route.geometry(), PRECISION_6);
+        List<Point> coordinates = lineString.coordinates();
+        LatLng[] points = new LatLng[coordinates.size()];
+        for (int i = 0; i < coordinates.size(); i++) {
+            points[i] = new LatLng(coordinates.get(i).latitude(), coordinates.get(i).longitude());
+
+            Log.e(TAG, "Error: " + points[i]);
+        }
+        // Draw Points on MapView
+//        mapboxMap.clear();
+//      mapboxMap.addPolyline(new PolylineOptions().add(points).color(Color.parseColor("#3bb2d0")).width(5));
+    }
+
+    private void getRoute(Point origin, Point destination) {
+        Log.e(TAG,"getRoute 실행");
+        client = MapboxDirections.builder()
+                .origin(origin)//출발지 위도 경도
+                .destination(destination)//도착지 위도 경도
+                .overview(DirectionsCriteria.OVERVIEW_FULL)//정보 받는정도 최대
+                .profile(DirectionsCriteria.PROFILE_WALKING)//길찾기 방법(도보,자전거,자동차)
+                .accessToken(getString(R.string.mapbox_access_token))
+                .build();
+
+        client.enqueueCall(new Callback<DirectionsResponse>() {
+            @Override
+            public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                Log.e(TAG,"onResponse 실행");
+                System.out.println(call.request().url().toString());
+                Log.e(TAG, "Response code: " + response.code());
+                if (response.body() == null) {
+                    Log.e(TAG, "No routes found, make sure you set the right user and access token.");
+                    return;
+                } else if (response.body().routes().size() < 1) {
+                    Log.e(TAG, "No routes found");
+                    return;
+                }
+                // Print some info about the route
+                currentRoute = response.body().routes().get(0);
+                Log.e(TAG, "Distance: " + currentRoute.distance());
+
+                int time = (int) (currentRoute.duration()/60);
+                //예상 시간을초단위로 받아옴
+                double distants = (currentRoute.distance()/1000);
+                //목적지까지의 거리를 m로 받아옴
+
+                distants = Math.round(distants*100)/100.0;
+                //Math.round() 함수는 소수점 첫째자리에서 반올림하여 정수로 남긴다
+                //원래 수에 100곱하고 round 실행 후 다시 100으로 나눈다 -> 둘째자리까지 남김
+
+                Toast.makeText(getApplicationContext(), String.format("예상 시간 : " + String.valueOf(time)+" 분 \n" +
+                        "목적지 거리 : " +distants+ " km"), Toast.LENGTH_LONG).show();
+                // Draw the route on the map
+                drawRoute(currentRoute);
+            }
+            @Override
+            public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
+                Log.e(TAG, "Error: " + throwable.getMessage());
+                Toast.makeText(NavigationActivity.this, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getRoute_navi (Point origin, Point destinaton, int profile) {
+        NavigationRoute.builder(this).accessToken(Mapbox.getAccessToken())
+                .profile(profile==1?DirectionsCriteria.PROFILE_WALKING:DirectionsCriteria.PROFILE_CYCLING)//도보 길찾기
+                .origin(origin)//출발지
+                .destination(destinaton).//도착지
+                build().
+                getRoute(new Callback<DirectionsResponse>() {
+                    @Override
+                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                        if (response.body() == null) {
+                            return;
+                        } else if (response.body().routes().size() ==0) {
+                            return;
+                        }
+                        currentRoute = response.body().routes().get(0);
+                        if (navigationMapRoute != null) { // 경로를 하나만 지정.
+                            navigationMapRoute.removeRoute();
+                        } else {
+                            navigationMapRoute = new NavigationMapRoute(null, mapView, mapboxMap, R.style.NavigationMapRoute);
+                        }
+                        navigationMapRoute.addRoute(currentRoute);
+                    }
+
+                    @Override
+                    public void onFailure(Call<DirectionsResponse> call, Throwable t) {
+                    }
+                });
     }
 
     @Override
