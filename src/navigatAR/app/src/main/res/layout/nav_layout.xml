@@ -13,5 +13,19 @@
         android:layout_height="500dp"
         android:layout_gravity="top|left"
         mapbox:mapbox_cameraZoom="15"/>
+    <Button
+        android:id="@+id/myLoc_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내 위치"
+        android:layout_gravity="bottom"/>
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:alpha="0.5"
+        android:enabled="false"
+        android:text="Start navigation" />
 
 </androidx.fragment.app.FragmentTabHost>
