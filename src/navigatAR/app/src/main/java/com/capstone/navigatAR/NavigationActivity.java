@@ -46,6 +46,7 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.localization.LocalizationPlugin;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
@@ -55,6 +56,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -217,8 +219,15 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
+                LocalizationPlugin localizationPlugin = new LocalizationPlugin(mapView, mapboxMap, style);
+                try {
+                    localizationPlugin.matchMapLanguageWithDeviceDefault();
+                } catch (RuntimeException exception) {
+                    Log.d(TAG, exception.toString());
+                }
             }
         });
+
     }
 
     public void getPointFromGeoCoder(String destinationString) {
@@ -356,8 +365,9 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         NavigationRoute.builder(this).accessToken(Mapbox.getAccessToken())
                 .profile(profile==1?DirectionsCriteria.PROFILE_WALKING:DirectionsCriteria.PROFILE_CYCLING)//도보 길찾기
                 .origin(origin)//출발지
-                .destination(destinaton).//도착지
-                build().
+                .destination(destinaton)//도착지
+                .language(Locale.forLanguageTag("Korean"))
+                .build().
                 getRoute(new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
