@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.mapbox.android.core.location.LocationEngine;
@@ -111,7 +112,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
             }
         });
 
-        Button myLoc_button = findViewById(R.id.myLoc_button); // 내 위치로 가는 버튼
+        ImageButton myLoc_button = findViewById(R.id.myLoc_button); // 내 위치로 가는 버튼
         myLoc_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -159,6 +160,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                     {
                         if (which == 0 ) {
                             //도보 길찾기 진행
+                            Log.e(TAG,"다이얼로그에서 도보 선택");
                             getRoute(origin,destination,1);//예상 시간 및 위도 경도 출력
                             getRoute_navi(origin,destination,1);//네비게이션 정보 저장
                             mHandler.postDelayed(new Runnable(){ // start버튼 활성화. 1초의 딜레이를 두어 에러 나는거 발생.
@@ -169,6 +171,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                         }
                         else if ( which == 1) {
                             //자전거 길찾기 진행
+                            Log.e(TAG,"다이얼로그에서 자전거 선택");
                             getRoute(origin,destination,2);//예상 시간 및 위도 경도 출력
                             getRoute_navi(origin,destination,2);//네비게이션 정보 저장
                             mHandler.postDelayed(new Runnable(){ // start버튼 활성화. 1초의 딜레이를 두어 에러 나는거 발생.
@@ -218,12 +221,12 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         });
     }
 
-    public void getPointFromGeoCoder(String destinationxy) {
+    public void getPointFromGeoCoder(String destinationString) {
         Log.e(TAG,"지오코더 실행");
         Geocoder geocoder = new Geocoder(this);
         List<Address> listAddress = null;
         try {
-            listAddress = geocoder.getFromLocationName(destinationxy, 1);
+            listAddress = geocoder.getFromLocationName(destinationString, 1);
             destinationLng = listAddress.get(0).getLongitude();
             destinationLat = listAddress.get(0).getLatitude();
         } catch (IOException e) {
@@ -298,7 +301,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     }
 
 
-    private void getRoute(Point origin, Point destination,int profile) {
+    private void getRoute(Point origin, Point destination,int profile) { // 지도상 경로 받아오기
         Log.e(TAG,"getRoute 실행");
         client = MapboxDirections.builder()
                 .origin(origin)//출발지 위도 경도
@@ -338,7 +341,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                         "목적지 거리 : " +distants+ " km"), Toast.LENGTH_LONG).show();
                 // Draw the route on the map
                 drawRoute(currentRoute);
-
             }
             @Override
             public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
@@ -348,7 +350,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         });
     }
 
-    private void getRoute_navi (Point origin, Point destinaton, int profile) {
+    private void getRoute_navi (Point origin, Point destinaton, int profile) { //선택한 방법대로 네비게이션 정보 넣기
         Log.e(TAG,"getRoute_navi 실행");
 
         NavigationRoute.builder(this).accessToken(Mapbox.getAccessToken())
@@ -443,7 +445,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
             }
         }
 
-
         @Override
         public void onFailure(@NonNull Exception exception) {
             Log.d("LocationChangeActivity", exception.getLocalizedMessage());
@@ -454,6 +455,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
             }
         }
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
