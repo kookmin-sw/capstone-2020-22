@@ -133,24 +133,57 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     @Override
     public boolean onMapClick(@NonNull LatLng point){
         Log.e(TAG,"onMapClick 실행");
-        Handler mHandler = new Handler();
+
         if(clickMarker!=null) //1개의 마커만 표시.
             mapboxMap.removeMarker(clickMarker);
 
         clickMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
         destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         myPos = Point.fromLngLat(lng,lat);
-
-        getRoute(myPos,destinationPos,1); // default로 도보 경로 표시
-        getRoute_navi(myPos,destinationPos,1);
-
-        mHandler.postDelayed(new Runnable(){ // start버튼 활성화. 1초의 딜레이를 두어 에러 나는거 발생.
-            public void run(){
-                startButton.setEnabled(true);
-            }
-        }, 1000);
+        showSearchItem(myPos, destinationPos);
 
         return false;
+    }
+
+    public void showSearchItem(Point origin, Point destination){  // 가는 방법 고르는 다이얼로그
+        Log.e(TAG,"showSearchItem 실행");
+        Handler mHandler = new Handler();
+        final CharSequence[] oItems = {"도보", "자전거"};
+        AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
+                android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+        oDialog.setTitle("방법을 선택하세요")
+                .setItems(oItems, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        if (which == 0 ) {
+                            //도보 길찾기 진행
+                            getRoute(origin,destination,1);//예상 시간 및 위도 경도 출력
+                            getRoute_navi(origin,destination,1);//네비게이션 정보 저장
+                            mHandler.postDelayed(new Runnable(){ // start버튼 활성화. 1초의 딜레이를 두어 에러 나는거 발생.
+                                public void run(){
+                                    startButton.setEnabled(true);
+                                }
+                            }, 1000);
+                        }
+                        else if ( which == 1) {
+                            //자전거 길찾기 진행
+                            getRoute(origin,destination,2);//예상 시간 및 위도 경도 출력
+                            getRoute_navi(origin,destination,2);//네비게이션 정보 저장
+                            mHandler.postDelayed(new Runnable(){ // start버튼 활성화. 1초의 딜레이를 두어 에러 나는거 발생.
+                                public void run(){
+                                    startButton.setEnabled(true);
+                                }
+                            }, 1000);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "오류 발생", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .setCancelable(false) //뒤로가기로 취소 막기
+                .show();
     }
 
     @Override
@@ -206,17 +239,13 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
 // Get an instance of the component
             LocationComponent locationComponent = mapboxMap.getLocationComponent();
-
 // Activate with options
             locationComponent.activateLocationComponent(
                     LocationComponentActivationOptions.builder(this, loadedMapStyle).build());
-
 // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
-
 // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING);
-
 // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
             initLocationEngine();
@@ -225,7 +254,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
             permissionsManager.requestLocationPermissions(this);
         }
     }
-
 
 
     @Override
@@ -351,40 +379,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 });
     }
 
-    public void showSearchItem(){  // 가는 방법 고르는 다이얼로그
-        final CharSequence[] oItems = {"도보", "자전거"};
-        AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-        oDialog.setTitle("방법을 선택하세요")
-                .setItems(oItems, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        getPointFromGeoCoder(editText.getText().toString());
-                        Point origin = Point.fromLngLat(lng,lat);
-                        Point destination = Point.fromLngLat(destinationLng, destinationLat);
-                        if (which == 0 ) {
-                            //도보 길찾기 진행
-                            getRoute(origin,destination,1);//예상 시간 및 위도 경도 출력
-                            getRoute_navi(origin,destination,1);//네비게이션 정보 저장
-                            startButton.setEnabled(true);
-                        }
-                        else if ( which == 1) {
-                            //자전거 길찾기 진행
-                            getRoute(origin,destination,2);//예상 시간 및 위도 경도 출력
-                            getRoute_navi(origin,destination,2);//네비게이션 정보 저장
-                            startButton.setEnabled(true);
 
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), "오류 발생", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-                .setCancelable(false) //뒤로가기로 취소 막기
-                .show();
-    }
     @Override
     @SuppressWarnings({"MissingPermission"})
     public void onStart() {
