@@ -21,7 +21,8 @@
         <activity
             android:name=".NavigationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity android:name=".Loading_Activity"/>
+        <activity android:name=".Login_Activity"/>
     </application>
 
 </manifest>
