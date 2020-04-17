@@ -33,7 +33,7 @@
             android:gravity="center_horizontal|center_vertical">
 
             <Button
-                android:id="@+id/main_nav_Button"
+                android:id="@+id/main_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -88,9 +88,9 @@
         </LinearLayout>
     </LinearLayout>
 
-    <fragment
+   <!-- <fragment
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8" />
+        android:layout_weight="0.8" />-->
 
 </LinearLayout>

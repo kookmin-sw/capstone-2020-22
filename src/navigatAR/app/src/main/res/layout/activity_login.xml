@@ -7,6 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:weightSum="10"
     >
 
     <TextView
@@ -17,7 +18,8 @@
         android:textColor="#1C64CC"
         android:text="NavigatAR"
         android:textSize="25sp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:layout_weight="1"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -25,11 +27,13 @@
         android:background="@null"
         android:gravity="center"
         android:src="@drawable/navigatar"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="50dp"
+        android:layout_weight="0"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="3">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/TextInputEditText_code"
@@ -47,7 +51,8 @@
         android:background="@drawable/btn_background"
         android:layout_marginBottom="30dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp"
+        android:layout_weight="0">
 
         <ImageView
             android:layout_width="80dp"
@@ -71,20 +76,5 @@
         android:layout_height= "wrap_content"
         android:orientation="horizontal"
         android:weightSum="10">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="5"
-            android:text="Code Finding"
-            android:textSize="22sp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="5"
-            android:textColor="#1C64CC"
-            android:text="Sign Code"
-            android:textSize="22sp"/>
     </LinearLayout>
 </LinearLayout>

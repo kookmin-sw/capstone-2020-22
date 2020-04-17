@@ -25,6 +25,7 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         TextInputEditText_code = findViewById(R.id.TextInputEditText_code);
         LinearLayout_login = findViewById(R.id.LinearLayout_login);
 
@@ -56,9 +57,10 @@ public class Login_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String code=TextInputEditText_code.getText().toString();
-                Intent intent = new Intent(Login_Activity.this, NavigationActivity.class);
+                Intent intent = new Intent(Login_Activity.this, MainActivity.class);
                 intent.putExtra("code",code);
                 startActivity(intent);
+                finish();
            }
         });
     }
