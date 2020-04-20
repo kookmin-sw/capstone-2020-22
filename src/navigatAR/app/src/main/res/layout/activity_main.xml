@@ -48,7 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
-        android:orientation="horizontal"
         android:weightSum="1.0">
 
         <LinearLayout
@@ -86,11 +85,18 @@
                 android:layout_height="wrap_content"
                 android:text="FAQ" />
         </LinearLayout>
+
     </LinearLayout>
 
-   <!-- <fragment
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.8" />-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8">
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
 </LinearLayout>
