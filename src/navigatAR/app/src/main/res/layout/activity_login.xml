@@ -43,43 +43,23 @@
             android:hint="Access Code" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/LinearLayout_login"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
+    <Button
+        android:id="@+id/Button_btn"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btn_background"
-        android:layout_marginBottom="30dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_weight="0">
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:background="@null"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:src="@drawable/navigatar" />
-
-        <TextView
-            android:layout_width="235dp"
-            android:layout_height="18dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Login"
-            android:textColor="#ffffff" />
-    </LinearLayout>
+        android:text="login" />
 
     <CheckBox
-        android:layout_gravity="center"
-        android:text="자동 로그인"
-        android:layout_width="wrap_content"
+        android:id="@+id/CheckBox_auto_login"
+        android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/LinearLayout_login"
         android:layout_centerHorizontal="true"
-        android:id="@+id/CheckBox_auto_login"
-        />
+        android:layout_gravity="center"
+        android:text="코드 저장" />
 
     <LinearLayout
         android:layout_width="match_parent"
