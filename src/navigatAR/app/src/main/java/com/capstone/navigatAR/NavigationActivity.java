@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,6 +33,7 @@ import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -47,10 +51,14 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.localization.LocalizationPlugin;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -134,6 +142,27 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 // onCreate 끝
 
     @Override
+    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+        Log.e(TAG, "onMapReady");
+
+        NavigationActivity.this.mapboxMap = mapboxMap;
+        mapboxMap.addOnMapClickListener(NavigationActivity.this);
+        mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/kooym/ck82rmy5h28js1ioa295dzgc7"), new Style.OnStyleLoaded() {
+            @Override
+            public void onStyleLoaded(@NonNull Style style) {
+                initSearchFab();
+                enableLocationComponent(style);
+                LocalizationPlugin localizationPlugin = new LocalizationPlugin(mapView, mapboxMap, style);
+                try {
+                    localizationPlugin.matchMapLanguageWithDeviceDefault();
+                } catch (RuntimeException exception) {
+                    Log.d(TAG, exception.toString());
+                }
+            }
+        });
+    }
+
+    @Override
     public boolean onMapClick(@NonNull LatLng point){
         Log.e(TAG,"onMapClick 실행");
 
@@ -146,6 +175,22 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         showSearchItem(myPos, destinationPos);
 
         return false;
+    }
+
+    private void initSearchFab() { //자동검색창 띄우기
+        findViewById(R.id.location_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new PlaceAutocomplete.IntentBuilder()
+                        .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
+                        .placeOptions(PlaceOptions.builder()
+                                .backgroundColor(Color.parseColor("#EEEEEE"))
+                                .limit(10)
+                                .build(PlaceOptions.MODE_CARDS))
+                        .build(NavigationActivity.this);
+                startActivityForResult(intent, 1);
+            }
+        });
     }
 
     public void showSearchItem(Point origin, Point destination){  // 가는 방법 고르는 다이얼로그
@@ -209,26 +254,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         }
     }
 
-    @Override
-    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-        Log.e(TAG, "onMapReady");
 
-        NavigationActivity.this.mapboxMap = mapboxMap;
-        mapboxMap.addOnMapClickListener(NavigationActivity.this);
-        mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/kooym/ck82rmy5h28js1ioa295dzgc7"), new Style.OnStyleLoaded() {
-            @Override
-            public void onStyleLoaded(@NonNull Style style) {
-                enableLocationComponent(style);
-                LocalizationPlugin localizationPlugin = new LocalizationPlugin(mapView, mapboxMap, style);
-                try {
-                    localizationPlugin.matchMapLanguageWithDeviceDefault();
-                } catch (RuntimeException exception) {
-                    Log.d(TAG, exception.toString());
-                }
-            }
-        });
-
-    }
 
     public void getPointFromGeoCoder(String destinationString) {
         Log.e(TAG,"지오코더 실행");
