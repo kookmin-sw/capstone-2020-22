@@ -99,7 +99,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private Point destinationPos;
     double destinationLng,destinationLat;
     public static double lat, lng;
-    private Marker clickMarker;
+    private Marker mapMarker;
     private Button startButton;
     EditText editText;
 
@@ -181,10 +181,10 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     public boolean onMapClick(@NonNull LatLng point){
         Log.e(TAG,"onMapClick 실행");
 
-        if(clickMarker!=null) //1개의 마커만 표시.
-            mapboxMap.removeMarker(clickMarker);
+        if(mapMarker!=null) //1개의 마커만 표시.
+            mapboxMap.removeMarker(mapMarker);
 
-        clickMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
+        mapMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
         destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         myPos = Point.fromLngLat(lng,lat);
         showSearchItem(myPos, destinationPos);
@@ -283,7 +283,10 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 LatLng desPos = new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
                         ((Point) selectedCarmenFeature.geometry()).longitude()); //검색어를 클릭할 시 그 위치의 위도 경도를 desPos에 저장.
 
-                mapboxMap.addMarker(new MarkerOptions().position(desPos));
+                if(mapMarker!=null) //1개의 마커만 표시.
+                    mapboxMap.removeMarker(mapMarker);
+                mapMarker = mapboxMap.addMarker(new MarkerOptions().position(desPos));
+
                 destinationPos = Point.fromLngLat(desPos.getLongitude(), desPos.getLatitude());
                 myPos = Point.fromLngLat(lng,lat);
                 showSearchItem(myPos,destinationPos);
