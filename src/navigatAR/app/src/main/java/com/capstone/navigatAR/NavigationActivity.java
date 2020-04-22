@@ -1,6 +1,7 @@
 package com.capstone.navigatAR;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,8 @@ import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -53,6 +56,8 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.localization.LocalizationPlugin;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
@@ -71,11 +76,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.mapbox.core.constants.Constants.PRECISION_6;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class NavigationActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback, MapboxMap.OnMapClickListener {
     private static final String TAG = NavigationActivity.class.getSimpleName();
     private long INTERVAL_IN_MILLISECONDS = 1000L;
     private long MAX_WAIT_TIME = INTERVAL_IN_MILLISECONDS * 5;
+    private String geojsonSourceLayerId = "geojsonSourceLayerId";
+    private String symbolIconId = "symbolIconId";
 
     private MapView mapView;
     private MapboxMap mapboxMap;
@@ -158,8 +167,14 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 } catch (RuntimeException exception) {
                     Log.d(TAG, exception.toString());
                 }
+                // Create an empty GeoJSON source using the empty feature collection
+                setUpSource(style);
+
+// Set up a new symbol layer for displaying the searched location's feature coordinates
+                setupLayer(style);
             }
         });
+
     }
 
     @Override
@@ -185,12 +200,13 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                         .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
                         .placeOptions(PlaceOptions.builder()
                                 .backgroundColor(Color.parseColor("#EEEEEE"))
-                                .limit(10)
+                                .limit(8)
                                 .build(PlaceOptions.MODE_CARDS))
                         .build(NavigationActivity.this);
                 startActivityForResult(intent, 1);
             }
         });
+
     }
 
     public void showSearchItem(Point origin, Point destination){  // 가는 방법 고르는 다이얼로그
@@ -236,25 +252,50 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 .show();
     }
 
+    private void setUpSource(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
+    }
+
+    private void setupLayer(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addLayer(new SymbolLayer("SYMBOL_LAYER_ID", geojsonSourceLayerId).withProperties(
+                iconImage(symbolIconId),
+                iconOffset(new Float[] {0f, -8f})
+        ));
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 200){
-            if(resultCode == RESULT_OK && data != null){
-                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                editText.setText(result.get(0));
+        if(resultCode == Activity.RESULT_OK && requestCode == 1){
+            CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
 
+            if(mapboxMap!=null){
+                Style style = mapboxMap.getStyle();
+                if (style != null) {
+                    GeoJsonSource source = style.getSourceAs(geojsonSourceLayerId);
+                    if(source!=null) {
+                        source.setGeoJson(FeatureCollection.fromFeatures(
+                                new Feature[]{Feature.fromJson(selectedCarmenFeature.toJson())}));
+                    }
+                }
                 startButton.setEnabled(true);
-                getPointFromGeoCoder(editText.getText().toString());
-                Point origin = Point.fromLngLat(lng,lat);
-                Point destination = Point.fromLngLat(destinationLng, destinationLat);
-                getRoute(origin,destination,1);//폴리라인 그리기
-                getRoute_navi(origin,destination,1);
+
+                LatLng desPos = new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                        ((Point) selectedCarmenFeature.geometry()).longitude()); //검색어를 클릭할 시 그 위치의 위도 경도를 desPos에 저장.
+
+                mapboxMap.addMarker(new MarkerOptions().position(desPos));
+                destinationPos = Point.fromLngLat(desPos.getLongitude(), desPos.getLatitude());
+                myPos = Point.fromLngLat(lng,lat);
+                showSearchItem(myPos,destinationPos);
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                        new CameraPosition.Builder()
+                                .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                                        ((Point) selectedCarmenFeature.geometry()).longitude()))
+                                .zoom(14)
+                                .build()), 4000);
             }
         }
     }
-
-
 
     public void getPointFromGeoCoder(String destinationString) {
         Log.e(TAG,"지오코더 실행");
