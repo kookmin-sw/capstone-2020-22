@@ -101,6 +101,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     public static double lat, lng;
     private Marker mapMarker;
     private Button startButton;
+    private Button arButton;
     EditText editText;
 
 
@@ -128,6 +129,14 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 // Call this method with Context from within an Activity
                 NavigationLauncher.startNavigation(NavigationActivity.this, options);
                 //네비게이션 실행 (MainActivity에서)
+            }
+        });
+        arButton = findViewById(R.id.ArButton);
+        arButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
+                startActivity(intent);
             }
         });
 
