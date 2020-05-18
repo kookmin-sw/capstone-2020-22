@@ -55,7 +55,7 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent);
                 finish();
             }
-        }else if (Login_Code == null) {
+        }else {
             Button_btn.setOnClickListener(this);
         }
     }
@@ -75,9 +75,11 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
         }else{
                 Toast.makeText(Login_Activity.this,Login_Code+"사용 불가능한 코드입니다.",Toast.LENGTH_SHORT).show();
             }
-        }else if(CheckBox_auto_login.isChecked() != true){
-            editor.clear();
-            editor.commit();
+        }else if(!CheckBox_auto_login.isChecked() ){
+            if(Login_Code !="") {
+                editor.clear();
+                editor.commit();
+            }
             if(EditText_code.getText().toString().equals("AR001")){
                 Intent intent = new Intent(Login_Activity.this, MainActivity.class);
                 startActivity(intent);
