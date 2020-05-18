@@ -25,12 +25,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src/main/java', 'src/main/java/fragment'
+            }
+        }
+    }
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation 'com.wikitude:js:9.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
@@ -43,4 +50,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-localization-v9:0.12.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.11.0'
+}
+repositories {
+    flatDir{
+        dirs 'libs'
+    }
 }
