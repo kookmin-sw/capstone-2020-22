@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mapbox.android.core.location.LocationEngine;
@@ -103,8 +104,9 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private Button startButton;
     private Button arButton;
     EditText editText;
-
-
+    private int time;
+    private double distance;
+    private TextView remainText;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -156,9 +158,14 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 Toast.makeText(getApplicationContext(), String.format("            내위치 \n위도 : " + lat + "\n경도 : "+ lng), Toast.LENGTH_SHORT).show();
             }
         });
+
+        remainText = (TextView)findViewById(R.id.remainText);
+
     }
 // onCreate 끝
+    public void checkTimeDis(){
 
+    }
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         Log.e(TAG, "onMapReady");
@@ -195,7 +202,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
         mapMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
         destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-        myPos = Point.fromLngLat(lng,lat);
         showSearchItem(myPos, destinationPos);
 
         return false;
@@ -418,18 +424,19 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
                 int time = (int) (currentRoute.duration()/60);
                 //예상 시간을초단위로 받아옴
-                double distants = (currentRoute.distance()/1000);
+                distance = (currentRoute.distance()/1000);
                 //목적지까지의 거리를 m로 받아옴
 
-                distants = Math.round(distants*100)/100.0;
+                distance = Math.round(distance*100)/100.0;
                 //Math.round() 함수는 소수점 첫째자리에서 반올림하여 정수로 남긴다
                 //원래 수에 100곱하고 round 실행 후 다시 100으로 나눈다 -> 둘째자리까지 남김
 
                 Toast.makeText(getApplicationContext(), String.format("예상 시간 : " + String.valueOf(time)+" 분 \n" +
-                        "목적지 거리 : " +distants+ " km"), Toast.LENGTH_LONG).show();
+                        "목적지 거리 : " +distance+ " km"), Toast.LENGTH_LONG).show();
                 // Draw the route on the map
                 drawRoute(currentRoute);
             }
+
             @Override
             public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
                 Log.e(TAG, "Error: " + throwable.getMessage());
@@ -527,9 +534,18 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 }
                 lat = result.getLastLocation().getLatitude();
                 lng = result.getLastLocation().getLongitude();
+                myPos = Point.fromLngLat(lng,lat);
                 // Pass the new location to the Maps SDK's LocationComponent
                 if (activity.mapboxMap != null && result.getLastLocation() != null) {
                     activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+                }
+                if(destinationPos!=null && currentRoute.duration()!=null && currentRoute.distance()!=null){
+                    time = (int) (currentRoute.duration()/60);
+                    //예상 시간을초단위로 받아옴
+                    distance = (currentRoute.distance()/1000);
+                    //목적지까지의 거리를 m로 받아옴
+                    distance = Math.round(distance*100)/100.0;
+                    remainText.setText(String.valueOf(time) + "분\n" + String.valueOf(distance) + "km");
                 }
             }
         }
