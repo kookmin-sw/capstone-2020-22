@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "15852780522",
+    "firebase_url": "https://navi-9e6bf.firebaseio.com",
+    "project_id": "navi-9e6bf",
+    "storage_bucket": "navi-9e6bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15852780522:android:6777ab617e8fb6ff995093",
+        "android_client_info": {
+          "package_name": "com.capstone.navigatAR"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15852780522-5dh4mrc3log7dmia435ltvvli4v4tmgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmgLkV4lnjvN7GE4DMQU5hejHRdCTCszo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15852780522-5dh4mrc3log7dmia435ltvvli4v4tmgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
