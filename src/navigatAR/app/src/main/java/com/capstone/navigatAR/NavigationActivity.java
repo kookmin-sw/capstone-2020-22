@@ -24,6 +24,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -113,6 +116,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         Log.e(TAG, "NavigationActivity onCreate 실행");
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token)); // mapbox api 토큰 받아오기
         setContentView(R.layout.nav_layout);
+        FirebaseApp.initializeApp(this);
 
         mapView = findViewById(R.id.mapView); //mapbox의 지도 표현
         mapView.onCreate(savedInstanceState);
@@ -539,13 +543,21 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 if (activity.mapboxMap != null && result.getLastLocation() != null) {
                     activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
-                if(destinationPos!=null && currentRoute.duration()!=null && currentRoute.distance()!=null){
+                if(destinationPos!=null && currentRoute.duration()!=null && currentRoute.distance()!=null){ //실시간 남은 거리 및 시간
                     time = (int) (currentRoute.duration()/60);
                     //예상 시간을초단위로 받아옴
                     distance = (currentRoute.distance()/1000);
                     //목적지까지의 거리를 m로 받아옴
                     distance = Math.round(distance*100)/100.0;
                     remainText.setText(String.valueOf(time) + "분\n" + String.valueOf(distance) + "km");
+
+                    // 시간과 거리를 db에 저장
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference time_db = database.getReference("time");
+                    DatabaseReference distance_db = database.getReference("distance");
+                    time_db.setValue(time);
+                    distance_db.setValue(distance);
+
                 }
             }
         }
