@@ -11,13 +11,19 @@ public class Loading_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        setContentView(R.layout.activity_loading);
+        Handler hd= new Handler();
+        hd.postDelayed(new SplashHandler(),1500);
+    }
+
+    private class SplashHandler implements Runnable{
+        public void run(){
+            startActivity(new Intent(getApplication(),Login_Activity.class));
+            Loading_Activity.this.finish();
         }
-        startActivity(new Intent(this, Login_Activity.class));
-        finish();
+    }
+    @Override
+    public void onBackPressed(){
     }
 }
 
