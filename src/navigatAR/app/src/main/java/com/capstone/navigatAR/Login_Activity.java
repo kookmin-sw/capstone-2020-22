@@ -25,7 +25,8 @@ import static com.mapbox.mapboxsdk.LibraryLoader.load;
 public class Login_Activity extends AppCompatActivity implements View.OnClickListener {
 
     Button Button_btn; // 코드를 전달하는 Button
-    EditText EditText_code; //코드 받는 EditText
+    EditText EditText_Email;
+    EditText EditText_Password;
     CheckBox CheckBox_auto_login;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -36,7 +37,7 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText_code = findViewById(R.id.EditText_code);
+        EditText_Email = findViewById(R.id.EditText_Email);
         Button_btn = findViewById(R.id.Button_btn);
         CheckBox_auto_login = findViewById(R.id.CheckBox_auto_login);
         sharedPreferences = getSharedPreferences("Login_Code",0);
@@ -44,7 +45,7 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
 
 
         if (sharedPreferences.getBoolean("CheckBox_auto_login",false)){
-            EditText_code.setText(sharedPreferences.getString("Login_Code",""));
+            EditText_Email.setText(sharedPreferences.getString("Login_Code",""));
             CheckBox_auto_login.setChecked(true);
         }
 
@@ -65,8 +66,8 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
         sharedPreferences = getSharedPreferences("Login_Code",0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(CheckBox_auto_login.isChecked()) {
-            if(EditText_code.getText().toString().equals("AR001")){
-                editor.putString("Login_Code", EditText_code.getText().toString());
+            if(EditText_Email.getText().toString().equals("AR001")){
+                editor.putString("Login_Code", EditText_Email.getText().toString());
                 editor.putBoolean("CheckBox_auto_login", true);
                 editor.commit();
                 Toast.makeText(Login_Activity.this,Login_Code+" 사용 가능한 코드입니다.",Toast.LENGTH_SHORT).show();
@@ -74,7 +75,7 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent);
                 finish();
             }else{
-                Toast.makeText(Login_Activity.this,EditText_code.getText().toString()+" 사용 불가능한 코드입니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login_Activity.this,EditText_Email.getText().toString()+" 사용 불가능한 코드입니다.",Toast.LENGTH_SHORT).show();
             }
         }
         else if(!CheckBox_auto_login.isChecked() ){
@@ -82,8 +83,8 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
                 editor.clear();
                 editor.commit();
             }
-            if(EditText_code.getText().toString().equals("AR001")){
-                Toast.makeText(Login_Activity.this,EditText_code.getText().toString()+" 사용 가능한 코드입니다.",Toast.LENGTH_SHORT).show();
+            if(EditText_Email.getText().toString().equals("AR001")){
+                Toast.makeText(Login_Activity.this,EditText_Email.getText().toString()+" 사용 가능한 코드입니다.",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Login_Activity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -93,7 +94,7 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(Login_Activity.this, Login_Code + " 사용 불가능한 코드입니다.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(Login_Activity.this, EditText_code.getText().toString() + " 사용 불가능한 코드입니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login_Activity.this, EditText_Email.getText().toString() + " 사용 불가능한 코드입니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         }
