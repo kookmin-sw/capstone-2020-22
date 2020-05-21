@@ -13,15 +13,40 @@
         android:layout_height="match_parent"
         android:layout_gravity="top|left"
         mapbox:mapbox_cameraZoom="15"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/location_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_margin="16dp"
+        android:tint="@android:color/white"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_search_category_default" />
+    <TextView
+        android:id="@+id/remainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#ffffff"
+        android:background="#80000000"
+        android:textSize="30sp"/>
     <ImageButton
         android:id="@+id/myLoc_button"
-       android:src="@drawable/buttonshape"
+        android:src="@drawable/buttonshape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#00ff0000"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"/>
+    <Button
+        android:id="@+id/ArButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:alpha="0.5"
+
+        android:text="AR"/>
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"

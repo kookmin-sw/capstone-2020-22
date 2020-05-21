@@ -8,6 +8,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url 'https://mapbox.bintray.com/mapbox'}
+        maven { url 'https://cdn.wikitude.com/sdk/maven'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
@@ -25,6 +26,7 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven { url 'https://mapbox.bintray.com/mapbox'}
+        maven { url 'https://cdn.wikitude.com/sdk/maven'}
     }
 }
 
