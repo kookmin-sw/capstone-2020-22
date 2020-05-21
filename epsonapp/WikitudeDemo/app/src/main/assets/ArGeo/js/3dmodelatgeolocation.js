@@ -21,69 +21,54 @@ var World = {
             First a location where the model should be displayed will be defined. This location will be relative to
             the user.
         */
+
         var database = firebase.database();
+        var destinationRef = firebase.database().ref('destination');
 
-var getlat;
+        var lat;
+        var lng;
 
-function get_lat() {
-   getlat = database.ref('latitude/');
-   var lat;
-   getlat.on('value',function(data) {
-    lat = data.val();
-    console.log(data.val());
-    return lat;
-   });
-   return lat;
-}
-
-    var getlong;
-    function get_long() {
-   getlong = database.ref('longitude/');
-
-   getlong.on('value',function(data) {
-        var long = data.val();
-            console.log(data.val());
-                    return long;
-        });
-
-    }
-
-        getlat = get_lat();
-        getlong = get_long();
-
-        console.log(getlat);
-        console.log(getlong);
-
-        var location = new AR.GeoLocation(getlat, getlong)
-
+        destinationRef.on('value',function(data){
+            var lat_ref = destinationRef.child('/latitude');
+            var lng_ref = destinationRef.child('/longitude');
+            lat_ref.on('value',function(child){
+                    lat = child.val();
+            });
+            lng_ref.on('value',function(child){
+                    lng = child.val();
+            });
+            console.log(lat);
+            console.log(lng);
+            var location = new AR.GeoLocation(lat, lng);
         /* Next the model object is loaded. */
-        var modelEarth = new AR.Model("assets/earth.wt3", {
-            onError: World.onError,
-            scale: {
-                x: 0.1,
-                y: 0.1,
-                z: 0.1
-            },
-            rotate: {
-                x: 180,
-                y: 180
-            }
-        });
+            var modelEarth = new AR.Model("assets/earth.wt3", {
+                onError: World.onError,
+                scale: {
+                    x: 0.1,
+                    y: 0.1,
+                    z: 0.1
+                },
+                rotate: {
+                    x: 180,
+                    y: 180
+                }
+            });
 
-        var indicatorImage = new AR.ImageResource("assets/indi.png", {
-            onError: World.onError
-        });
+            var indicatorImage = new AR.ImageResource("assets/indi.png", {
+                onError: World.onError
+            });
 
-        var indicatorDrawable = new AR.ImageDrawable(indicatorImage, 0.1, {
-            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
-        });
+            var indicatorDrawable = new AR.ImageDrawable(indicatorImage, 0.1, {
+                verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
+            });
 
-        /* Putting it all together the location and 3D model is added to an AR.GeoObject. */
-        this.geoObject = new AR.GeoObject(location, {
-            drawables: {
-                cam: [modelEarth],
-                indicator: [indicatorDrawable]
-            }
+            /* Putting it all together the location and 3D model is added to an AR.GeoObject. */
+            this.geoObject = new AR.GeoObject(location, {
+                drawables: {
+                    cam: [modelEarth],
+                    indicator: [indicatorDrawable]
+                }
+            });
         });
     },
 
