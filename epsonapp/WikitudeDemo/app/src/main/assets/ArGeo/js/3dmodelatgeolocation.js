@@ -1,3 +1,14 @@
+var config = {
+  apiKey: "AIzaSyDmgLkV4lnjvN7GE4DMQU5hejHRdCTCszo",
+  authDomain: "navi-9e6bf.firebaseapp.com",
+  databaseURL: "https://navi-9e6bf.firebaseio.com/",
+  projectId: "navi-9e6bf",
+  storageBucket: "navi-9e6bf.appspot.com",
+  appID: "1:15852780522:web:f9299965f2b215a7995093",
+};
+
+firebase.initializeApp(config);
+
 var World = {
 
     init: function initFn() {
@@ -7,19 +18,51 @@ var World = {
     createModelAtLocation: function createModelAtLocationFn() {
 
         /*
-            First a location where the model should be displayed will be defined. This location will be relativ to
+            First a location where the model should be displayed will be defined. This location will be relative to
             the user.
         */
-        var location = new AR.GeoLocation(latitue,longitude)
-        //var location = new AR.RelativeLocation(null, 5, 0, 2);
+        var database = firebase.database();
+
+var getlat;
+
+function get_lat() {
+   getlat = database.ref('latitude/');
+   var lat;
+   getlat.on('value',function(data) {
+    lat = data.val();
+    console.log(data.val());
+    return lat;
+   });
+   return lat;
+}
+
+    var getlong;
+    function get_long() {
+   getlong = database.ref('longitude/');
+
+   getlong.on('value',function(data) {
+        var long = data.val();
+            console.log(data.val());
+                    return long;
+        });
+
+    }
+
+        getlat = get_lat();
+        getlong = get_long();
+
+        console.log(getlat);
+        console.log(getlong);
+
+        var location = new AR.GeoLocation(getlat, getlong)
 
         /* Next the model object is loaded. */
         var modelEarth = new AR.Model("assets/earth.wt3", {
             onError: World.onError,
             scale: {
-                x: 1,
-                y: 1,
-                z: 1
+                x: 0.1,
+                y: 0.1,
+                z: 0.1
             },
             rotate: {
                 x: 180,
