@@ -1,3 +1,4 @@
+/*
 package com.capstone.navigatAR;
 
 import android.content.Intent;
@@ -102,3 +103,4 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
 }
 
 
+*/

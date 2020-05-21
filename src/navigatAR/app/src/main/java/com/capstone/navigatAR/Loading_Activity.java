@@ -18,7 +18,7 @@ public class Loading_Activity extends AppCompatActivity {
 
     private class SplashHandler implements Runnable{
         public void run(){
-            startActivity(new Intent(getApplication(),Login_Activity.class));
+            startActivity(new Intent(getApplication(),Firebase_Login_Activity.class));
             Loading_Activity.this.finish();
         }
     }
