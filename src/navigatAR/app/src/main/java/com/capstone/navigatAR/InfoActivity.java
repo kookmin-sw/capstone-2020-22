@@ -85,6 +85,8 @@ public class InfoActivity extends AppCompatActivity
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
+    private Button restaurant;
+    private Button cafe;
 
 
     private View mLayout;
@@ -100,13 +102,23 @@ public class InfoActivity extends AppCompatActivity
 
         previous_marker = new ArrayList<Marker>();
 
-        Button button = (Button)findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener(){
+        restaurant = findViewById(R.id.restaurant);
+        restaurant.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                showPlaceInformation(currentPosition);
+                showPlaceInformation_restaurant(currentPosition);
             }
         });
+
+        cafe = findViewById(R.id.cafe);
+        cafe.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlaceInformation_cafe(currentPosition);
+            }
+        }));
+
+
 
         mLayout = findViewById(R.id.layout_main);
 
@@ -177,7 +189,7 @@ public class InfoActivity extends AppCompatActivity
 
     }
 
-    public void showPlaceInformation(LatLng location)
+    public void showPlaceInformation_restaurant(LatLng location)
     {
         mMap.clear();//지도 클리어
 
@@ -190,6 +202,23 @@ public class InfoActivity extends AppCompatActivity
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
+                .build()
+                .execute();
+    }
+
+    public void showPlaceInformation_cafe(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(InfoActivity.this)
+                .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.CAFE) //카페
                 .build()
                 .execute();
     }
@@ -428,7 +457,7 @@ public class InfoActivity extends AppCompatActivity
         //디폴트 위치 서울
         LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
         String markerTitle = "위치정보 가져올 수 없음";
-        String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
+        String markerSnippet = "위치 퍼미션과 GPS 활성 여부를 확인하세요";
 
 
         if (currentMarker != null) currentMarker.remove();

@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layout_main"
     android:orientation="vertical"
-    tools:context=".InfoActivity" >
+    tools:context=".InfoActivity">
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.8"
         android:id="@+id/map"
-        tools:context=".MapsActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="314dp"
+        android:layout_weight="0.8"
+        tools:context=".MapsActivity" />
 
     <Button
-        android:text="장소검색"
-        android:layout_width="match_parent"
+        android:id="@+id/restaurant"
+        android:layout_width="109dp"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:id="@+id/button"/>
+        android:text="음식점" />
+
+    <Button
+        android:id="@+id/cafe"
+        android:layout_width="109dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:text="카페" />
+
 
 </LinearLayout>
