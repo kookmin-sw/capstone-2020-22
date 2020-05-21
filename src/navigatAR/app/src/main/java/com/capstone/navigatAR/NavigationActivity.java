@@ -11,10 +11,12 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +58,8 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.localization.LocalizationPlugin;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
@@ -67,6 +71,7 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -101,6 +106,8 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private Marker mapMarker;
     private Button startButton;
     private Button arButton;
+    private Button infoButton;
+    EditText editText;
     private int time;
     private double distance;
     private TextView remainText;
@@ -136,6 +143,15 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        infoButton = findViewById(R.id.InfoButton);
+        infoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(NavigationActivity.this, InfoActivity.class);
                 startActivity(intent);
             }
         });
@@ -374,7 +390,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 .setMaxWaitTime(MAX_WAIT_TIME).build();
         locationEngine.requestLocationUpdates(request, callback, getMainLooper());
         locationEngine.getLastLocation(callback);
-
     }
 
     private void drawRoute(DirectionsRoute route) { //지오코딩된 내용을 바탕으로 포인트에 값 저장
@@ -531,7 +546,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 if (location == null) {
                     return;
                 }
-
                 lat = result.getLastLocation().getLatitude();
                 lng = result.getLastLocation().getLongitude();
                 myPos = Point.fromLngLat(lng,lat);
@@ -551,13 +565,9 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference time_db = database.getReference("time");
                     DatabaseReference distance_db = database.getReference("distance");
-                    DatabaseReference destination_db = database.getReference("destination");
-                    DatabaseReference location_db = database.getReference("Location");
-                    destination_db.child("latitude").setValue(destinationPos.latitude());
-                    destination_db.child("longitude").setValue(destinationPos.longitude());
                     time_db.setValue(time);
                     distance_db.setValue(distance);
-                    location_db.setValue(location);
+
                 }
             }
         }
