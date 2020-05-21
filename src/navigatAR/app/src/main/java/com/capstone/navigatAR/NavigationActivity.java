@@ -11,12 +11,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,8 +56,6 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.localization.LocalizationPlugin;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
@@ -71,7 +67,6 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -106,7 +101,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private Marker mapMarker;
     private Button startButton;
     private Button arButton;
-    EditText editText;
     private int time;
     private double distance;
     private TextView remainText;
@@ -166,7 +160,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         remainText = (TextView)findViewById(R.id.remainText);
 
     }
-// onCreate 끝
+    // onCreate 끝
     public void checkTimeDis(){
 
     }
@@ -380,6 +374,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 .setMaxWaitTime(MAX_WAIT_TIME).build();
         locationEngine.requestLocationUpdates(request, callback, getMainLooper());
         locationEngine.getLastLocation(callback);
+
     }
 
     private void drawRoute(DirectionsRoute route) { //지오코딩된 내용을 바탕으로 포인트에 값 저장
@@ -536,6 +531,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 if (location == null) {
                     return;
                 }
+
                 lat = result.getLastLocation().getLatitude();
                 lng = result.getLastLocation().getLongitude();
                 myPos = Point.fromLngLat(lng,lat);
@@ -555,9 +551,15 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference time_db = database.getReference("time");
                     DatabaseReference distance_db = database.getReference("distance");
+                    DatabaseReference lat_db = database.getReference("latitude");
+                    DatabaseReference lng_db = database.getReference("longitude");
                     time_db.setValue(time);
                     distance_db.setValue(distance);
+                    lat_db.setValue(destinationPos.latitude());
+                    lng_db.setValue(destinationPos.longitude());
 
+                    DatabaseReference location_db = database.getReference("Location");
+                    location_db.setValue(location);
                 }
             }
         }
