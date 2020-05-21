@@ -551,17 +551,12 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference time_db = database.getReference("time");
                     DatabaseReference distance_db = database.getReference("distance");
-                    DatabaseReference lat_db = database.getReference("latitude");
-                    DatabaseReference lng_db = database.getReference("longitude");
                     DatabaseReference destination_db = database.getReference("destination");
+                    DatabaseReference location_db = database.getReference("Location");
                     destination_db.child("latitude").setValue(destinationPos.latitude());
                     destination_db.child("longitude").setValue(destinationPos.longitude());
                     time_db.setValue(time);
                     distance_db.setValue(distance);
-                    lat_db.setValue(destinationPos.latitude());
-                    lng_db.setValue(destinationPos.longitude());
-
-                    DatabaseReference location_db = database.getReference("Location");
                     location_db.setValue(location);
                 }
             }
