@@ -1,24 +1,30 @@
 package com.capstone.navigatAR;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -30,6 +36,9 @@ import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -47,14 +56,17 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.localization.LocalizationPlugin;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,11 +75,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.mapbox.core.constants.Constants.PRECISION_6;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class NavigationActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback, MapboxMap.OnMapClickListener {
     private static final String TAG = NavigationActivity.class.getSimpleName();
     private long INTERVAL_IN_MILLISECONDS = 1000L;
     private long MAX_WAIT_TIME = INTERVAL_IN_MILLISECONDS * 5;
+    private String geojsonSourceLayerId = "geojsonSourceLayerId";
+    private String symbolIconId = "symbolIconId";
 
     private MapView mapView;
     private MapboxMap mapboxMap;
@@ -82,17 +98,19 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private Point destinationPos;
     double destinationLng,destinationLat;
     public static double lat, lng;
-    private Marker clickMarker;
+    private Marker mapMarker;
     private Button startButton;
-    EditText editText;
-
-
+    private Button arButton;
+    private int time;
+    private double distance;
+    private TextView remainText;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.e(TAG, "NavigationActivity onCreate 실행");
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token)); // mapbox api 토큰 받아오기
         setContentView(R.layout.nav_layout);
+        FirebaseApp.initializeApp(this);
 
         mapView = findViewById(R.id.mapView); //mapbox의 지도 표현
         mapView.onCreate(savedInstanceState);
@@ -113,6 +131,14 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 //네비게이션 실행 (MainActivity에서)
             }
         });
+        arButton = findViewById(R.id.ArButton);
+        arButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ImageButton myLoc_button = findViewById(R.id.myLoc_button); // 내 위치로 가는 버튼
         myLoc_button.setOnClickListener(new View.OnClickListener(){
@@ -130,22 +156,70 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 Toast.makeText(getApplicationContext(), String.format("            내위치 \n위도 : " + lat + "\n경도 : "+ lng), Toast.LENGTH_SHORT).show();
             }
         });
+
+        remainText = (TextView)findViewById(R.id.remainText);
+
     }
-// onCreate 끝
+    // onCreate 끝
+    public void checkTimeDis(){
+
+    }
+    @Override
+    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+        Log.e(TAG, "onMapReady");
+
+        NavigationActivity.this.mapboxMap = mapboxMap;
+        mapboxMap.addOnMapClickListener(NavigationActivity.this);
+        mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/kooym/ck82rmy5h28js1ioa295dzgc7"), new Style.OnStyleLoaded() {
+            @Override
+            public void onStyleLoaded(@NonNull Style style) {
+                initSearchFab();
+                enableLocationComponent(style);
+                LocalizationPlugin localizationPlugin = new LocalizationPlugin(mapView, mapboxMap, style);
+                try {
+                    localizationPlugin.matchMapLanguageWithDeviceDefault();
+                } catch (RuntimeException exception) {
+                    Log.d(TAG, exception.toString());
+                }
+                // Create an empty GeoJSON source using the empty feature collection
+                setUpSource(style);
+
+// Set up a new symbol layer for displaying the searched location's feature coordinates
+                setupLayer(style);
+            }
+        });
+
+    }
 
     @Override
     public boolean onMapClick(@NonNull LatLng point){
         Log.e(TAG,"onMapClick 실행");
 
-        if(clickMarker!=null) //1개의 마커만 표시.
-            mapboxMap.removeMarker(clickMarker);
+        if(mapMarker!=null) //1개의 마커만 표시.
+            mapboxMap.removeMarker(mapMarker);
 
-        clickMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
+        mapMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
         destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-        myPos = Point.fromLngLat(lng,lat);
         showSearchItem(myPos, destinationPos);
 
         return false;
+    }
+
+    private void initSearchFab() { //자동검색창 띄우기
+        findViewById(R.id.location_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new PlaceAutocomplete.IntentBuilder()
+                        .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
+                        .placeOptions(PlaceOptions.builder()
+                                .backgroundColor(Color.parseColor("#EEEEEE"))
+                                .limit(8)
+                                .build(PlaceOptions.MODE_CARDS))
+                        .build(NavigationActivity.this);
+                startActivityForResult(intent, 1);
+            }
+        });
+
     }
 
     public void showSearchItem(Point origin, Point destination){  // 가는 방법 고르는 다이얼로그
@@ -191,43 +265,52 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 .show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 200){
-            if(resultCode == RESULT_OK && data != null){
-                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                editText.setText(result.get(0));
+    private void setUpSource(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
+    }
 
-                startButton.setEnabled(true);
-                getPointFromGeoCoder(editText.getText().toString());
-                Point origin = Point.fromLngLat(lng,lat);
-                Point destination = Point.fromLngLat(destinationLng, destinationLat);
-                getRoute(origin,destination,1);//폴리라인 그리기
-                getRoute_navi(origin,destination,1);
-            }
-        }
+    private void setupLayer(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addLayer(new SymbolLayer("SYMBOL_LAYER_ID", geojsonSourceLayerId).withProperties(
+                iconImage(symbolIconId),
+                iconOffset(new Float[] {0f, -8f})
+        ));
     }
 
     @Override
-    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-        Log.e(TAG, "onMapReady");
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && requestCode == 1){
+            CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
 
-        NavigationActivity.this.mapboxMap = mapboxMap;
-        mapboxMap.addOnMapClickListener(NavigationActivity.this);
-        mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/kooym/ck82rmy5h28js1ioa295dzgc7"), new Style.OnStyleLoaded() {
-            @Override
-            public void onStyleLoaded(@NonNull Style style) {
-                enableLocationComponent(style);
-                LocalizationPlugin localizationPlugin = new LocalizationPlugin(mapView, mapboxMap, style);
-                try {
-                    localizationPlugin.matchMapLanguageWithDeviceDefault();
-                } catch (RuntimeException exception) {
-                    Log.d(TAG, exception.toString());
+            if(mapboxMap!=null){
+                Style style = mapboxMap.getStyle();
+                if (style != null) {
+                    GeoJsonSource source = style.getSourceAs(geojsonSourceLayerId);
+                    if(source!=null) {
+                        source.setGeoJson(FeatureCollection.fromFeatures(
+                                new Feature[]{Feature.fromJson(selectedCarmenFeature.toJson())}));
+                    }
                 }
-            }
-        });
+                startButton.setEnabled(true);
 
+                LatLng desPos = new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                        ((Point) selectedCarmenFeature.geometry()).longitude()); //검색어를 클릭할 시 그 위치의 위도 경도를 desPos에 저장.
+
+                if(mapMarker!=null) //1개의 마커만 표시.
+                    mapboxMap.removeMarker(mapMarker);
+                mapMarker = mapboxMap.addMarker(new MarkerOptions().position(desPos));
+
+                destinationPos = Point.fromLngLat(desPos.getLongitude(), desPos.getLatitude());
+                myPos = Point.fromLngLat(lng,lat);
+                showSearchItem(myPos,destinationPos);
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                        new CameraPosition.Builder()
+                                .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                                        ((Point) selectedCarmenFeature.geometry()).longitude()))
+                                .zoom(14)
+                                .build()), 4000);
+            }
+        }
     }
 
     public void getPointFromGeoCoder(String destinationString) {
@@ -291,6 +374,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 .setMaxWaitTime(MAX_WAIT_TIME).build();
         locationEngine.requestLocationUpdates(request, callback, getMainLooper());
         locationEngine.getLastLocation(callback);
+
     }
 
     private void drawRoute(DirectionsRoute route) { //지오코딩된 내용을 바탕으로 포인트에 값 저장
@@ -339,18 +423,19 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
                 int time = (int) (currentRoute.duration()/60);
                 //예상 시간을초단위로 받아옴
-                double distants = (currentRoute.distance()/1000);
+                distance = (currentRoute.distance()/1000);
                 //목적지까지의 거리를 m로 받아옴
 
-                distants = Math.round(distants*100)/100.0;
+                distance = Math.round(distance*100)/100.0;
                 //Math.round() 함수는 소수점 첫째자리에서 반올림하여 정수로 남긴다
                 //원래 수에 100곱하고 round 실행 후 다시 100으로 나눈다 -> 둘째자리까지 남김
 
                 Toast.makeText(getApplicationContext(), String.format("예상 시간 : " + String.valueOf(time)+" 분 \n" +
-                        "목적지 거리 : " +distants+ " km"), Toast.LENGTH_LONG).show();
+                        "목적지 거리 : " +distance+ " km"), Toast.LENGTH_LONG).show();
                 // Draw the route on the map
                 drawRoute(currentRoute);
             }
+
             @Override
             public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
                 Log.e(TAG, "Error: " + throwable.getMessage());
@@ -446,11 +531,35 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 if (location == null) {
                     return;
                 }
+
                 lat = result.getLastLocation().getLatitude();
                 lng = result.getLastLocation().getLongitude();
+                myPos = Point.fromLngLat(lng,lat);
                 // Pass the new location to the Maps SDK's LocationComponent
                 if (activity.mapboxMap != null && result.getLastLocation() != null) {
                     activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+                }
+                if(destinationPos!=null && currentRoute.duration()!=null && currentRoute.distance()!=null){ //실시간 남은 거리 및 시간
+                    time = (int) (currentRoute.duration()/60);
+                    //예상 시간을초단위로 받아옴
+                    distance = (currentRoute.distance()/1000);
+                    //목적지까지의 거리를 m로 받아옴
+                    distance = Math.round(distance*100)/100.0;
+                    remainText.setText(String.valueOf(time) + "분\n" + String.valueOf(distance) + "km");
+
+                    // 시간과 거리를 db에 저장
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference time_db = database.getReference("time");
+                    DatabaseReference distance_db = database.getReference("distance");
+                    DatabaseReference lat_db = database.getReference("latitude");
+                    DatabaseReference lng_db = database.getReference("longitude");
+                    time_db.setValue(time);
+                    distance_db.setValue(distance);
+                    lat_db.setValue(destinationPos.latitude());
+                    lng_db.setValue(destinationPos.longitude());
+
+                    DatabaseReference location_db = database.getReference("Location");
+                    location_db.setValue(location);
                 }
             }
         }
