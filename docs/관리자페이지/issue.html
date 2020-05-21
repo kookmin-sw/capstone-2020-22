@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>NavigatAR</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- 네비게이션 바 시작 -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">NavigatAR</a>
+			</div>
+          			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"> <a href="/">가입</a> </li>
+                  				<li> <a href="/">조회</a> </li>
+            				</ul>
+          			</div>
+       
+      		</div>
+	</nav>
+	<br> <br> <br> <br> <br>
+ 	<!-- 네비게이션 바 끝 -->
+ 
+ 	<!-- 가입 폼 시작 -->
+	<div class="container">
+		<div class="form-group">
+			<label for="email">이메일 주소 :</label>
+			<input type="email" class="form-control" id="email">
+		</div>
+ 		<div class="form-group">
+      			<label for="pwd">비밀번호 :</label>
+			<input type="password" class="form-control" id="pwd">
+		</div>
+		 <div class="form-group">
+            			<label for="name">PIN 번호 :</label>
+            			<input type="text" class="form-control" id="pin">
+    		</div>
+		<button type="button" class="btn btn-default join">가입</button>
+	</div>
+	<!-- 가입 폼 끝 -->
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script>
+	var firebaseEmailAuth; // 파이어베이스 email 인증 모듈 전역변수
+    	var firebaseDatabase; // 파이어베이스 db 모듈 전역변수
+    	var userInfo; // 가입한 유저의 정보 object 타입
+
+	//파이어 베이스 초기화 코드
+	var config = {
+		apiKey: "AIzaSyBZEM5WsbwS5frsqgpvxZMxMW1ZCaTV4oE",
+		authDomain: "navi-9e6bf.firebaseapp.com",
+    		databaseURL: "https://navi-9e6bf.firebaseio.com",
+  		projectId: "navi-9e6bf",
+    		storageBucket: "navi-9e6bf.appspot.com",
+    		messagingSenderId: "15852780522",
+    		appId: "1:15852780522:web:f9299965f2b215a7995093",
+   		 measurementId: "G-VQ4TSBZC0R" };
+    	
+    		firebase.initializeApp(config);
+		firebaseEmailAuth = firebase.auth();
+    		firebaseDatabase = firebase.database();
+ 
+	//제이쿼리 
+	$(document).ready(function(){
+  
+		//가입버튼 눌렀을 때 작동하는 함수
+		$(document).on('click','.join',function(){
+ 
+			// 제이쿼리 선택자와 val() 함수를 이용하여 이메일, 비밀번호 값을 가져온다.
+			var email = $('#email').val();
+			var password = $('#pwd').val();
+ 			pin = $('#pin').val();
+			// 이메일로 가입 버튼 눌렀을 때 작동되는 함수 - firebase 인증 모듈
+			firebaseEmailAuth.createUserWithEmailAndPassword(email, password).then(function(user) {
+    			userInfo = user; //가입 후 callBack 함수로 생성된 유저의 정보가 user에 담겨 전역변수에 할당
+ 
+			//성공했을 때 작동되는 함수
+			logUser(); 
+			},
+		
+			function(error) {
+			// 에러가 발생했을 때 
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			alert(errorMessage);  
+			});
+ 
+			// 가입 성공했을 때 호출 되는 데이터베이스 함수 
+			function logUser(){
+    			var ref = firebaseDatabase.ref("users/"+userInfo.uid); // 저장될 곳을 users라는 부모 키를 레퍼런스로 지정
+    
+ 		   	// 저장 형식
+    			var obj = {
+        			pin: pin,
+    			};
+ 
+ 	   		ref.set(obj); // 고유한 자식 키가 생성 되면서 json 삽입
+    			alert("가입성공");
+ 
+			// 다시 가입 페이지로 이동시키고 세션 저장시키기
+    			window.location.href = "/issue.html"
+			}
+		});
+	});
+	</script>
+
+</body>
+</html>
