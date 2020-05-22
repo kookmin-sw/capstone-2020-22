@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mapbox.android.core.location.LocationEngine;
@@ -104,6 +106,12 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private int time;
     private double distance;
     private TextView remainText;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private String userID;
+
+    DatabaseReference userRef;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -112,6 +120,11 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         setContentView(R.layout.nav_layout);
         FirebaseApp.initializeApp(this);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
+        database = FirebaseDatabase.getInstance();
+        userRef = database.getReference("users");
         mapView = findViewById(R.id.mapView); //mapbox의 지도 표현
         mapView.onCreate(savedInstanceState);
         Log.e(TAG,"mapview onCreate 실행");
@@ -200,6 +213,8 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
         mapMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
         destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+        userRef.child(userID).child("destination").child("latitude").setValue(destinationPos.latitude());
+        userRef.child(userID).child("destination").child("longitude").setValue(destinationPos.longitude());
         showSearchItem(myPos, destinationPos);
 
         return false;
@@ -548,16 +563,20 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                     remainText.setText(String.valueOf(time) + "분\n" + String.valueOf(distance) + "km");
 
                     // 시간과 거리를 db에 저장
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference time_db = database.getReference("time");
-                    DatabaseReference distance_db = database.getReference("distance");
-                    DatabaseReference destination_db = database.getReference("destination");
-                    DatabaseReference location_db = database.getReference("Location");
-                    destination_db.child("latitude").setValue(destinationPos.latitude());
-                    destination_db.child("longitude").setValue(destinationPos.longitude());
-                    time_db.setValue(time);
-                    distance_db.setValue(distance);
-                    location_db.setValue(location);
+
+
+                    userRef.child(userID).child("time").setValue(time);
+                    userRef.child(userID).child("distance").setValue(distance);
+
+//                    DatabaseReference time_db = database.getReference("time");
+//                    DatabaseReference distance_db = database.getReference("distance");
+//                    DatabaseReference destination_db = database.getReference("destination");
+//                    DatabaseReference location_db = database.getReference("Location");
+//                    destination_db.child("latitude").setValue(destinationPos.latitude());
+//                    destination_db.child("longitude").setValue(destinationPos.longitude());
+//                    time_db.setValue(time);
+//                    distance_db.setValue(distance);
+//                    location_db.setValue(location);
                 }
             }
         }
