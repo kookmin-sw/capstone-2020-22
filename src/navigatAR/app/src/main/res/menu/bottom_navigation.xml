@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mapView"
+        android:icon="@drawable/buttonshape"
+        android:title="내위치"/>
+    <item
+        android:id="@+id/ArButton"
+        android:icon="@drawable/buttonshape"
+        android:title="AR"/>
+    <item
+        android:id="@+id/startButton"
+        android:icon="@drawable/buttonshape"
+        android:title="START NAVIGATION"/>
+</menu>

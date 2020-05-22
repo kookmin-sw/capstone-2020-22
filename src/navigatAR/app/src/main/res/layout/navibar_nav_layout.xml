@@ -36,7 +36,7 @@
         android:src="@drawable/buttonshape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="top"
         android:background="#00ff0000"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="5dp"/>
@@ -56,5 +56,13 @@
         android:alpha="0.5"
         android:enabled="false"
         android:text="Start navigation" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_navibar"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_navigation"
+        />
 
 </FrameLayout>
