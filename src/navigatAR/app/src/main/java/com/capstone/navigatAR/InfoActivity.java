@@ -65,8 +65,8 @@ public class InfoActivity extends AppCompatActivity
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
-    private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
+    private static final int UPDATE_INTERVAL_MS = 500;  // 1초
+    private static final int FASTEST_UPDATE_INTERVAL_MS = 250; // 0.5초
 
 
 
@@ -266,8 +266,6 @@ public class InfoActivity extends AppCompatActivity
             }
 
         }
-
-
 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
