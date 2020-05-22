@@ -87,6 +87,8 @@ public class InfoActivity extends AppCompatActivity
     private Location location;
     private Button restaurant;
     private Button cafe;
+    private Button pharmacy;
+    private Button hospital;
 
 
     private View mLayout;
@@ -111,12 +113,24 @@ public class InfoActivity extends AppCompatActivity
         });
 
         cafe = findViewById(R.id.cafe);
-        cafe.setOnClickListener((new View.OnClickListener() {
+        cafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPlaceInformation_cafe(currentPosition);
             }
-        }));
+        });
+
+        pharmacy = findViewById(R.id.pharmacy);
+        pharmacy.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) { showPlaceInformation_pharmacy(currentPosition);}
+        });
+
+        hospital = findViewById(R.id.hospital);
+        hospital.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) { showPlaceInformation_hospital(currentPosition);}
+        });
 
 
 
@@ -222,6 +236,41 @@ public class InfoActivity extends AppCompatActivity
                 .build()
                 .execute();
     }
+
+    public void showPlaceInformation_pharmacy(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(InfoActivity.this)
+                .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.PHARMACY) // 약국
+               .build()
+                .execute();
+    }
+
+    public void showPlaceInformation_hospital(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(InfoActivity.this)
+                .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.HOSPITAL) // 약국
+                .build()
+                .execute();
+    }
+
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {

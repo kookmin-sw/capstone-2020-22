@@ -23,12 +23,26 @@
         android:layout_weight="0.2"
         android:text="음식점" />
 
+
     <Button
         android:id="@+id/cafe"
         android:layout_width="109dp"
         android:layout_height="0dp"
         android:layout_weight="0.2"
         android:text="카페" />
+    
+    <Button
+        android:id="@+id/pharmacy"
+        android:layout_width="109dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:text="약국" />
 
+    <Button
+        android:id="@+id/hospital"
+        android:layout_width="109dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:text="병원" />
 
 </LinearLayout>
