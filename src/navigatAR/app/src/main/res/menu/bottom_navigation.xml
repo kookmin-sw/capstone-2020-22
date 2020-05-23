@@ -3,10 +3,11 @@
     <item
         android:id="@+id/myLoc_button"
         android:icon="@drawable/buttonshape"
-        android:title="내위치"/>
+        android:title="My Location"/>
     <item
         android:id="@+id/ArButton"
-        android:icon="@drawable/buttonshape"
+        android:icon="@drawable/navigatar"
+
         android:title="AR"/>
     <item
         android:id="@+id/startButton"

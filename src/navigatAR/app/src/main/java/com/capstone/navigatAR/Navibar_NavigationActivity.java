@@ -12,6 +12,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,6 +63,7 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.services.android.navigation.ui.v5.NavigationButton;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
@@ -86,6 +89,7 @@ public class Navibar_NavigationActivity extends AppCompatActivity implements Per
     private String geojsonSourceLayerId = "geojsonSourceLayerId";
     private String symbolIconId = "symbolIconId";
 
+    private NavigationButton main_navibar;
     private MapView mapView;
     private MapboxMap mapboxMap;
     private PermissionsManager permissionsManager;
@@ -102,6 +106,7 @@ public class Navibar_NavigationActivity extends AppCompatActivity implements Per
     private Marker mapMarker;
     private Button startButton;
     private Button ArButton;
+    private ImageButton myLoc_button;
     private int time;
     private double distance;
     private TextView remainText;
@@ -116,7 +121,7 @@ public class Navibar_NavigationActivity extends AppCompatActivity implements Per
         super.onCreate(savedInstanceState);
         Log.e(TAG, "NavigationActivity onCreate 실행");
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token)); // mapbox api 토큰 받아오기
-        setContentView(R.layout.nav_layout);
+        setContentView(R.layout.navibar_nav_layout);
         FirebaseApp.initializeApp(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -128,46 +133,59 @@ public class Navibar_NavigationActivity extends AppCompatActivity implements Per
         mapView.onCreate(savedInstanceState);
         Log.e(TAG,"mapview onCreate 실행");
         mapView.getMapAsync(this);
-
-        startButton = findViewById(R.id.startButton);
-        startButton.setOnClickListener(new View.OnClickListener(){
+        BottomNavigationView bottomNavigationView =(BottomNavigationView)findViewById(R.id.main_navibar);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                startButton.setEnabled(false);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id. startButton:
+                        startButton.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                startButton.setEnabled(false);
 
-                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                        .directionsRoute(currentRoute)
-                        .build();
-                // Call this method with Context from within an Activity
-                NavigationLauncher.startNavigation(Navibar_NavigationActivity.this, options);
-                //네비게이션 실행 (MainActivity에서)
+                                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                                        .directionsRoute(currentRoute)
+                                        .build();
+                                // Call this method with Context from within an Activity
+                                NavigationLauncher.startNavigation(Navibar_NavigationActivity.this, options);
+                                //네비게이션 실행 (MainActivity에서)
+                            }
+                        });
+                        return true;
+                    case R.id.ArButton:
+                        ArButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Navibar_NavigationActivity.this, CameraActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        return true;
+                    case R.id.myLoc_button:
+                        myLoc_button.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                CameraPosition position = new CameraPosition.Builder()
+                                        .target(new LatLng(lat, lng)) // Sets the new camera position
+                                        .zoom(17) //  줌 정도 숫자가 클수록 더많이 줌함
+                                        .bearing(0) // Rotate the camera , 카메라 방향(북쪽이 0) 북쪽부터 시계방향으로 측정
+                                        .tilt(0) // Set the camera tilt , 각도
+                                        .build(); // Creates a CameraPosition from the builder
+                                //카메라 움직이기
+                                mapboxMap.animateCamera(CameraUpdateFactory
+                                        .newCameraPosition(position), 7000);
+                                Toast.makeText(getApplicationContext(), String.format("            내위치 \n위도 : " + lat + "\n경도 : "+ lng), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                return true;
+                }
+                return false;
             }
         });
-        ArButton = findViewById(R.id.ArButton);
-        ArButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Navibar_NavigationActivity.this, CameraActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        ImageButton myLoc_button = findViewById(R.id.myLoc_button); // 내 위치로 가는 버튼
-        myLoc_button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                CameraPosition position = new CameraPosition.Builder()
-                        .target(new LatLng(lat, lng)) // Sets the new camera position
-                        .zoom(17) //  줌 정도 숫자가 클수록 더많이 줌함
-                        .bearing(0) // Rotate the camera , 카메라 방향(북쪽이 0) 북쪽부터 시계방향으로 측정
-                        .tilt(0) // Set the camera tilt , 각도
-                        .build(); // Creates a CameraPosition from the builder
-                //카메라 움직이기
-                mapboxMap.animateCamera(CameraUpdateFactory
-                        .newCameraPosition(position), 7000);
-                Toast.makeText(getApplicationContext(), String.format("            내위치 \n위도 : " + lat + "\n경도 : "+ lng), Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
 
         remainText = (TextView)findViewById(R.id.remainText);
 

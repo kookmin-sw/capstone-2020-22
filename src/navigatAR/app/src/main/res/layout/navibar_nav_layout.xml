@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
 
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize">
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -14,7 +20,7 @@
         android:layout_gravity="top|left"
         mapbox:mapbox_cameraZoom="15">
 
-<!--        <Button
+        <!--        <Button
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,30 +47,34 @@
         android:textColor="#ffffff"
         android:background="#80000000"
         android:textSize="30sp"/>
-  <!--  <ImageButton
-        android:id="@+id/myLoc_button"
-        android:src="@drawable/buttonshape"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="#00ff0000"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="5dp"/>
-    <Button
-        android:id="@+id/ArButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|right"
-        android:alpha="0.5"
+    <!--  <ImageButton
+          android:id="@+id/myLoc_button"
+          android:src="@drawable/buttonshape"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="top"
+          android:background="#00ff0000"
+          android:layout_marginBottom="20dp"
+          android:layout_marginLeft="5dp"/>
+      <Button
+          android:id="@+id/ArButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center|right"
+          android:alpha="0.5"
 
-        android:text="AR"/>-->
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/main_navibar"
-        android:layout_gravity="bottom"
-        app:menu="@menu/bottom_navigation"
-        />
+          android:text="AR"/>-->
 
 </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_navibar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:itemBackground="@color/Navigatar_color"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:menu="@menu/bottom_navigation" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -27,6 +27,9 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Firebase_Login_Activity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Navibar_NavigationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>
