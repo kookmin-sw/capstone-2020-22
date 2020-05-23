@@ -37,9 +37,13 @@
       			<label for="pwd">비밀번호 :</label>
 			<input type="password" class="form-control" id="pwd">
 		</div>
-		 <div class="form-group">
-            			<label for="name">PIN 번호 :</label>
-            			<input type="text" class="form-control" id="pin">
+		<div class="form-group">
+      			<label for="pwd">연락처 :</label>
+			<input type="text" class="form-control" id="tel">
+		</div>
+		<div class="form-group">
+            			<label for="name">글래스 번호 :</label>
+            			<input type="text" class="form-control" id="gn">
     		</div>
 		<button type="button" class="btn btn-default join">가입</button>
 	</div>
@@ -53,7 +57,7 @@
 
 	//파이어 베이스 초기화 코드
 	var config = {
-		// 문제 있을 수도 있으니 가려버리기 //
+		스니펫 가리기 };
     	
     		firebase.initializeApp(config);
 		firebaseEmailAuth = firebase.auth();
@@ -68,7 +72,8 @@
 			// 제이쿼리 선택자와 val() 함수를 이용하여 이메일, 비밀번호 값을 가져온다.
 			var email = $('#email').val();
 			var password = $('#pwd').val();
- 			pin = $('#pin').val();
+ 			var gn = $('#gn').val();
+			tel = $('#tel').val();
 			// 이메일로 가입 버튼 눌렀을 때 작동되는 함수 - firebase 인증 모듈
 			firebaseEmailAuth.createUserWithEmailAndPassword(email, password).then(function(user) {
     			userInfo = user; //가입 후 callBack 함수로 생성된 유저의 정보가 user에 담겨 전역변수에 할당
@@ -86,12 +91,18 @@
  
 			// 가입 성공했을 때 호출 되는 데이터베이스 함수 
 			function logUser(){
-    			var ref = firebaseDatabase.ref("users/"+userInfo.uid); // 저장될 곳을 users라는 부모 키를 레퍼런스로 지정
-    
+			if ( $('#gn').val() == 1 ) {
+    			var ref = firebaseDatabase.ref("glass1/"+userInfo.uid); // 저장될 곳을 users라는 부모 키를 레퍼런스로 지정
+    			} else if ( $('#gn').val() == 2) {
+			var ref = firebaseDatabase.ref("glass2/"+userInfo.uid); // gn이 2일 경우 글래스 2번에 저장
+    			} else if ( $('#gn').val() == 3) {
+			var ref = firebaseDatabase.ref("glass3/"+userInfo.uid); // gn이 3일 경우 글래스 3번에 저장
+    			} else { alert(" 글래스 번호를 확인해주세요. "); }
+
  		   	// 저장 형식
-    			var obj = {
-        			pin: pin,
-    			};
+    			 var obj = {
+			 tel: tel,
+    			 };
  
  	   		ref.set(obj); // 고유한 자식 키가 생성 되면서 json 삽입
     			alert("가입성공");
