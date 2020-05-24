@@ -38,7 +38,6 @@ public class Firebase_Login_Activity extends AppCompatActivity{
         Button_btn = (Button)findViewById(R.id.Button_btn);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signOut();
         Button_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,14 +91,13 @@ public class Firebase_Login_Activity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
+        currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser!=null){
+            startActivity(new Intent(Firebase_Login_Activity.this,MainActivity.class));
+            finish();
+        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseAuth.addAuthStateListener(authStateListener);
-    }
 }
 
 

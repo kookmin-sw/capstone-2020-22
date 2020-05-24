@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action1"
+        android:icon="@drawable/baseline_power_settings_new_black_18dp"
+        android:title="Logout"/>
+    <item
+        android:id="@+id/action2"
+        android:icon="@drawable/baseline_home_black_18dp"
+        android:title="Home"/>
+    <item
+        android:id="@+id/action3"
+        android:icon="@drawable/baseline_help_outline_black_18dp"
+        android:title="Help"/>
+</menu>

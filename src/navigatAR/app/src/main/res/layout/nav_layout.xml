@@ -13,10 +13,11 @@
         android:layout_height="match_parent"
         android:layout_gravity="top|left"
         mapbox:mapbox_cameraZoom="15"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/location_search"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:layout_gravity="end|top"
         android:layout_margin="16dp"
         android:tint="@android:color/white"
@@ -38,7 +39,7 @@
         android:layout_gravity="bottom"
         android:background="#00ff0000"
         android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="5dp"/>
     <Button
         android:id="@+id/ArButton"
         android:layout_width="wrap_content"
