@@ -25,8 +25,12 @@ import android.widget.Toast;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -110,21 +114,36 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private String userID;
+    DatabaseReference glassRef;
+    private int glassNum;
 
-    DatabaseReference userRef;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.e(TAG, "NavigationActivity onCreate 실행");
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token)); // mapbox api 토큰 받아오기
         setContentView(R.layout.nav_layout);
-        FirebaseApp.initializeApp(this);
+
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         database = FirebaseDatabase.getInstance();
-        userRef = database.getReference("users");
+        glassRef = database.getReference(userID);
+
+        glassRef.child("num").addValueEventListener(new ValueEventListener() {//로그인 한 사용자의 glass number 가져오기.
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                glassNum = dataSnapshot.getValue(int.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         mapView = findViewById(R.id.mapView); //mapbox의 지도 표현
         mapView.onCreate(savedInstanceState);
         Log.e(TAG,"mapview onCreate 실행");
@@ -213,8 +232,26 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
         mapMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
         destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-        userRef.child(userID).child("destination").child("latitude").setValue(destinationPos.latitude());
-        userRef.child(userID).child("destination").child("longitude").setValue(destinationPos.longitude());
+//        Query glassQuery = database.getReference().orderByChild("uid").equalTo(userID);
+//        glassQuery.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for(DataSnapshot datas: dataSnapshot.getChildren()) {
+//                    glassKey = datas.getRef().toString();
+//                    Log.i(TAG, glassKey);
+//                    glassRef = database.getReference(glassKey).getParent();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+        if(glassRef != null) {
+            glassRef.child("destination").child("latitude").setValue(destinationPos.latitude());
+            glassRef.child("destination").child("longitude").setValue(destinationPos.longitude());
+        }
         showSearchItem(myPos, destinationPos);
 
         return false;
@@ -234,7 +271,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 startActivityForResult(intent, 1);
             }
         });
-
     }
 
     public void showSearchItem(Point origin, Point destination){  // 가는 방법 고르는 다이얼로그
@@ -564,10 +600,11 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
                     // 시간과 거리를 db에 저장
 
-
-                    userRef.child(userID).child("time").setValue(time);
-                    userRef.child(userID).child("distance").setValue(distance);
-
+                    if(glassRef != null) {
+                        glassRef.child("time").setValue(time);
+                        glassRef.child("distance").setValue(distance);
+                        glassRef.child("Location").setValue(location);
+                    }
 //                    DatabaseReference time_db = database.getReference("time");
 //                    DatabaseReference distance_db = database.getReference("distance");
 //                    DatabaseReference destination_db = database.getReference("destination");

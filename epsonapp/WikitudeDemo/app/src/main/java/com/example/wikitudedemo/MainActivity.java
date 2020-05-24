@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.WearableArchitectView;
@@ -28,58 +29,70 @@ public class MainActivity extends AppCompatActivity {
     private WearableArchitectView architectView;
     private TextView timeText;
     private TextView distanceText;
-    private double longitude,lagitude;
     private Location location;
-
+    private DatabaseReference glassRef;
+    private int glassNum;
+    private String glassKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
         setContentView(R.layout.activity_main);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.architectView = (WearableArchitectView)findViewById(R.id.architectView);
         loadArchitectView();
-
+        glassNum = 1;
         timeText = (TextView)findViewById(R.id.timeText);
         distanceText = (TextView)findViewById(R.id.distanceText);
 
-        DatabaseReference distance_db = database.getReference("distance");
-        DatabaseReference time_db = database.getReference("time"); // db key 값 지정
-        time_db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(int.class) != null){
-                    int value = dataSnapshot.getValue(int.class);
-                    Log.w("FireBaseData", "getData : " + value);
-                    timeText.setText(String.valueOf(value));
-                }else{
-                    Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
-                }
 
+        database.getReference().orderByChild("num").equalTo(glassNum).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot datas: dataSnapshot.getChildren()) {
+                    glassKey = datas.getKey();
+                    Log.e(TAG,"glassKey is " + glassKey);
+                    glassRef = database.getReference().child(glassKey);
+                }
+                glassRef.child("distance").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue(double.class) != null){
+                            double value = dataSnapshot.getValue(double.class);
+                            Log.w("FireBaseData", "getData : " + value);
+                            distanceText.setText(String.valueOf(value));
+                        }else{
+                            Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.w("FireBaseData", "loadPost:onCancelled", databaseError.toException());
+                    }
+                });
+                glassRef.child("time").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue(int.class) != null){
+                            int value = dataSnapshot.getValue(int.class);
+                            Log.w("FireBaseData", "getData : " + value);
+                            timeText.setText(String.valueOf(value));
+                        }else{
+                            Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.w("FireBaseData", "loadPost:onCancelled", databaseError.toException());
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("FireBaseData", "loadPost:onCancelled", databaseError.toException());
-            }
-        });
-        distance_db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(double.class) != null){
-                    double value = dataSnapshot.getValue(double.class);
-                    Log.w("FireBaseData", "getData : " + value);
-                    distanceText.setText(String.valueOf(value));
-                }else{
-                    Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
-                }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("FireBaseData", "loadPost:onCancelled", databaseError.toException());
             }
         });
 
