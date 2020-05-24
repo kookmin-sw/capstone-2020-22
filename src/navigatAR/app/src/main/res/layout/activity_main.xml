@@ -1,59 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_marginTop="16dp">
+    >
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/Image_View"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:layout_weight="0.1">
-
-        <ImageView
-            android:id="@+id/Image_View"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|top"
-            android:src="@drawable/navigatar" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-
-    </LinearLayout>
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/navigatar" />
 
     <Button
         android:id="@+id/main_btn"
-        android:layout_width="215dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/Image_View"
         android:background="@drawable/btn_background"
         android:text="Navigation" />
 
     <FrameLayout
         android:id="@+id/main_framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="358dp"
-        android:layout_weight="0.7">
-
-    </FrameLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_btn"
+        android:layout_above="@+id/main_bottom_nav"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         app:itemBackground="@color/Navigatar_color"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
         app:menu="@menu/main_bottom_nav" />
 
-</LinearLayout>
+</RelativeLayout>
