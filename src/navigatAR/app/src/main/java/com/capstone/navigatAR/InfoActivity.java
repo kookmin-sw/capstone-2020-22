@@ -88,7 +88,9 @@ public class InfoActivity extends AppCompatActivity
     private Button restaurant;
     private Button cafe;
     private Button pharmacy;
-    private Button hospital;
+    private Button movie_theater;
+    private Button bus_station;
+    private Button bank;
 
 
     private View mLayout;
@@ -126,13 +128,23 @@ public class InfoActivity extends AppCompatActivity
             public void onClick(View v) { showPlaceInformation_pharmacy(currentPosition);}
         });
 
-        hospital = findViewById(R.id.hospital);
-        hospital.setOnClickListener(new View.OnClickListener(){
+        movie_theater = findViewById(R.id.movie_theater);
+        movie_theater.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) { showPlaceInformation_hospital(currentPosition);}
+            public void onClick(View v) { showPlaceInformation_movie_theater(currentPosition);}
         });
 
+        bus_station = findViewById(R.id.bus_station);
+        bus_station.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) { showPlaceInformation_bus_station(currentPosition);}
+        });
 
+        bank = findViewById(R.id.bank);
+        bank.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) { showPlaceInformation_bank(currentPosition);}
+        });
 
         mLayout = findViewById(R.id.layout_main);
 
@@ -214,7 +226,7 @@ public class InfoActivity extends AppCompatActivity
                 .listener(InfoActivity.this)
                 .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(1000) //500 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
@@ -231,7 +243,7 @@ public class InfoActivity extends AppCompatActivity
                 .listener(InfoActivity.this)
                 .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(1000) //500 미터 내에서 검색
                 .type(PlaceType.CAFE) //카페
                 .build()
                 .execute();
@@ -248,13 +260,13 @@ public class InfoActivity extends AppCompatActivity
                 .listener(InfoActivity.this)
                 .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(1000) // 1000 미터 내에서 검색
                 .type(PlaceType.PHARMACY) // 약국
                .build()
                 .execute();
     }
 
-    public void showPlaceInformation_hospital(LatLng location)
+    public void showPlaceInformation_movie_theater(LatLng location)
     {
         mMap.clear();//지도 클리어
 
@@ -265,8 +277,42 @@ public class InfoActivity extends AppCompatActivity
                 .listener(InfoActivity.this)
                 .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
-                .type(PlaceType.HOSPITAL) // 약국
+                .radius(1000) // 1000 미터 내에서 검색
+                .type(PlaceType.MOVIE_THEATER) // 영화관
+                .build()
+                .execute();
+    }
+
+    public void showPlaceInformation_bus_station(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(InfoActivity.this)
+                .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(1000) // 1000 미터 내에서 검색
+                .type(PlaceType.BUS_STATION) // 버스 정류장
+                .build()
+                .execute();
+    }
+
+    public void showPlaceInformation_bank(LatLng location)
+    {
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(InfoActivity.this)
+                .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(1000) // 1000 미터 내에서 검색
+                .type(PlaceType.BANK) // 은행
                 .build()
                 .execute();
     }
