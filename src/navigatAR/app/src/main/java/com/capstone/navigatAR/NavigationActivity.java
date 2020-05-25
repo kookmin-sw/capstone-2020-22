@@ -115,7 +115,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     private FirebaseDatabase database;
     private String userID;
     DatabaseReference glassRef;
-    private int glassNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -129,20 +128,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         database = FirebaseDatabase.getInstance();
-        glassRef = database.getReference(userID);
-
-        glassRef.child("num").addValueEventListener(new ValueEventListener() {//로그인 한 사용자의 glass number 가져오기.
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                glassNum = dataSnapshot.getValue(int.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+        glassRef = database.getReference("users/" + userID);
 
         mapView = findViewById(R.id.mapView); //mapbox의 지도 표현
         mapView.onCreate(savedInstanceState);
@@ -193,9 +179,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
     }
     // onCreate 끝
-    public void checkTimeDis(){
 
-    }
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         Log.e(TAG, "onMapReady");

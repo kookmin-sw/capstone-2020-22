@@ -46,20 +46,20 @@ public class MainActivity extends AppCompatActivity {
         distanceText = (TextView)findViewById(R.id.distanceText);
 
 
-        database.getReference().orderByChild("num").equalTo(glassNum).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.getReference("users/").orderByChild("num").equalTo(glassNum).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot datas: dataSnapshot.getChildren()) {
                     glassKey = datas.getKey();
                     Log.e(TAG,"glassKey is " + glassKey);
-                    glassRef = database.getReference().child(glassKey);
+                    glassRef = database.getReference("users/").child(glassKey);
                 }
                 glassRef.child("distance").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.getValue(double.class) != null){
                             double value = dataSnapshot.getValue(double.class);
-                            Log.w("FireBaseData", "getData : " + value);
+                            Log.e(TAG,"distance is " + value);
                             distanceText.setText(String.valueOf(value));
                         }else{
                             Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.getValue(int.class) != null){
                             int value = dataSnapshot.getValue(int.class);
-                            Log.w("FireBaseData", "getData : " + value);
+                            Log.e(TAG,"time is " + value);
                             timeText.setText(String.valueOf(value));
                         }else{
                             Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();

@@ -48,16 +48,16 @@ var World = {
                     });
                     var location = new AR.GeoLocation(lat, lng);
                     /* Next the model object is loaded. */
-                    var modelEarth = new AR.Model("assets/earth.wt3", {
+                    var modelEarth = new AR.Model("assets/here.wt3", {
                          onError: World.onError,
                          scale: {
-                             x: 0.1,
-                             y: 0.1,
-                             z: 0.1
+                             x: 0.01,
+                             y: 0.01,
+                             z: 0.01
                          },
                          rotate: {
-                             x: 180,
-                             y: 180
+                             x: 0,
+                             y: 0
                          }
                     });
 
