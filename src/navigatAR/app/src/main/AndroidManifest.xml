@@ -20,14 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-       <!-- <activity android:name=".Login_Activity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-       --> <activity android:name=".MainActivity"/>
+      <activity android:name=".MainActivity"
+          android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".NavigationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Firebase_Login_Activity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Navibar_NavigationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>

@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">NavigatAR</string>
+    <string name="help1">Help</string>
+    <string name="help2">캡스톤 22조</string>
+    <string name="help3">만든이 : 구윤모, 김종현, 김명진, 임다운, 오몽, 정현구 </string>
+    <string name="help4">대여장소 : 미래관 4층 캡스톤 22조</string>
+    <string name="help5">사용법 : 로그인 후 Start Navigation을 누르고 사용</string>
+    <string name="help6">http://github.com/kookmin-sw/capstone-2020-22</string>
+
     <string name="mapbox_access_token">pk.eyJ1Ijoia29veW0iLCJhIjoiY2s3YTdkdnVwMDA0dTNkbnk2cHJnMDRhdCJ9.pz5-DV7qY1vr9LgNPEZJhg</string>
     <string name="wikitude_license_key">Nh5h0W6hMozHm/6m2KRrF7pB76e1woGspLzvHoIgwZD4N0Eqbt/AZwUBl2rsfukNuaRetS2VfAIY0TJ7OQ20soGYOp7chLmS3zEkTyJm/ZXB+gkk704t6ka1UmHi5XJszgodtiJbP4xScoEgRvFJExncvwyCtte4Byf7nQBgvBtTYWx0ZWRfX89EXgaI4gbiGt4+29ajDFeEsjQkb3nz28dIMUo0pjqyirrZVmg9HQHntBPnTKl+zjXSwi4oYtwcImrwMYzlDWXUmxORxvnLjVRZSkiq5nvpYNwrMkU2yZCv7NH69yaF0IXlxoo79pxPqmnfOBcy89UvJoHH08wnCkLba8sIl/e8Q0HQjPXTE1/nZqFxj3C2qE10Il8jQNm1L4zAkRKmBAgZOY7HOP4wLkjizSsOTYo/I2kLRCRwoT5UDWUeJWFbAen8spmgLn1gPuA9KSclW4PEiHsgl5yR7CkKUfu5AOwky83WVybOTjDSWeLfDcylrtoj2T7PMsay6AE94swhb3Kh/2zHgNZL+VNG/wjtz2rsL++5IKe2qu0EYDbxQrGku2J4HAOX/VqYOJN5jGlZ2VjjpJZhpx2ToNP0NW4Iop+/8Ah4mjhahtvxwVR7kSu5g2juKoogaKzmQN4k8Y5WElKjsL0cBu6YfupYGiBZpt7qZfgZOkNC2r+mcENhmAhqQC2ep1f13CRIIapIrHkSKrIgvYUlJbc40x9jwDsRQJWiVlTYLM9sQhHnMgPWZSsUxQFRc/UvQWT2bjIhyO1TNdg5l9JLWkNShJNKrDevWLVNGd445afJUx0xfLfxJm4buKgg/8pVk1D/7uYunQzF4KrpQg+5qn/AXPEctM8uI8yKULLbyoxw7JQ=</string>
 </resources>

@@ -20,8 +20,11 @@
         android:id="@+id/main_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_below="@+id/Image_View"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="120dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/btn_background"
         android:text="Navigation" />
 
@@ -29,10 +32,10 @@
         android:id="@+id/main_framelayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/main_btn"
         android:layout_above="@+id/main_bottom_nav"
+        android:layout_below="@id/main_btn"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bottom_nav"
