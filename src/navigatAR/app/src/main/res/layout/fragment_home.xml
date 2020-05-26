@@ -8,9 +8,9 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="236dp"
-        android:background="@drawable/baseline_home_black_18dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/abc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
