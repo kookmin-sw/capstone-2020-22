@@ -40,10 +40,10 @@
                 android:text="카페" />
 
             <Button
-                android:id="@+id/bus_station"
+                android:id="@+id/subway_station"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
-                android:text="버스정류장"/>
+                android:text="지하철역"/>
 
         </LinearLayout>
 

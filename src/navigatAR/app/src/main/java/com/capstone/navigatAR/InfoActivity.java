@@ -78,8 +78,9 @@ public class InfoActivity extends AppCompatActivity
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};  // 외부 저장소
 
 
-    Location mCurrentLocatiion;
+    Location mCurrentLocation;
     LatLng currentPosition;
+    LatLng clickPosition;
 
 
     private FusedLocationProviderClient mFusedLocationClient;
@@ -89,7 +90,7 @@ public class InfoActivity extends AppCompatActivity
     private Button cafe;
     private Button pharmacy;
     private Button movie_theater;
-    private Button bus_station;
+    private Button subway_station;
     private Button bank;
 
 
@@ -110,7 +111,7 @@ public class InfoActivity extends AppCompatActivity
         restaurant.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                showPlaceInformation_restaurant(currentPosition);
+                showPlaceInformation_restaurant(clickPosition);
             }
         });
 
@@ -118,7 +119,7 @@ public class InfoActivity extends AppCompatActivity
         cafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPlaceInformation_cafe(currentPosition);
+                showPlaceInformation_cafe(clickPosition);
             }
         });
 
@@ -134,10 +135,10 @@ public class InfoActivity extends AppCompatActivity
             public void onClick(View v) { showPlaceInformation_movie_theater(currentPosition);}
         });
 
-        bus_station = findViewById(R.id.bus_station);
-        bus_station.setOnClickListener(new View.OnClickListener(){
+        subway_station = findViewById(R.id.subway_station);
+        subway_station.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) { showPlaceInformation_bus_station(currentPosition);}
+            public void onClick(View v) { showPlaceInformation_subway_station(currentPosition);}
         });
 
         bank = findViewById(R.id.bank);
@@ -226,7 +227,7 @@ public class InfoActivity extends AppCompatActivity
                 .listener(InfoActivity.this)
                 .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(1000) //500 미터 내에서 검색
+                .radius(1000) //1000 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
@@ -283,7 +284,7 @@ public class InfoActivity extends AppCompatActivity
                 .execute();
     }
 
-    public void showPlaceInformation_bus_station(LatLng location)
+    public void showPlaceInformation_subway_station(LatLng location)
     {
         mMap.clear();//지도 클리어
 
@@ -295,7 +296,7 @@ public class InfoActivity extends AppCompatActivity
                 .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(1000) // 1000 미터 내에서 검색
-                .type(PlaceType.BUS_STATION) // 버스 정류장
+                .type(PlaceType.SUBWAY_STATION) // 지하철역
                 .build()
                 .execute();
     }
@@ -365,15 +366,36 @@ public class InfoActivity extends AppCompatActivity
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
+            //지도 클릭시 위치 마커 표시
             @Override
-            public void onMapClick(LatLng latLng) {
+            public void onMapClick(LatLng latlng) {
+                mMap.clear();
+                MarkerOptions mOptions = new MarkerOptions();
+
+                mOptions.title(" ");
+                mOptions.position(latlng);
+
+                clickPosition = latlng;
+
+                String markerTitle = getCurrentAddress(latlng);
+                String markerSnippet = "위도:" + String.valueOf(latlng.latitude)
+                        + " 경도:" + String.valueOf(latlng.longitude);
+
+                mOptions.title(markerTitle);
+                mOptions.snippet(markerSnippet);
+                mOptions.draggable(true);
+
+                mMap.addMarker(mOptions);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latlng);
+                mMap.moveCamera(cameraUpdate);
+
+
 
                 Log.d( TAG, "onMapClick :");
             }
         });
     }
-
+    int count = 0;
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -395,11 +417,15 @@ public class InfoActivity extends AppCompatActivity
 
                 Log.d(TAG, "onLocationResult : " + markerSnippet);
 
+                //현재 위치에 마커 생성하고 이동 , 최초 1회만 실행
+                if(count == 0 ) {
+                    clickPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                    setCurrentLocation(location, markerTitle, markerSnippet);
+                    mCurrentLocation = location;
+                    count++;
+                }
 
-                //현재 위치에 마커 생성하고 이동
-                setCurrentLocation(location, markerTitle, markerSnippet);
 
-                mCurrentLocatiion = location;
             }
 
 
@@ -538,7 +564,6 @@ public class InfoActivity extends AppCompatActivity
 
 
         currentMarker = mMap.addMarker(markerOptions);
-
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         mMap.moveCamera(cameraUpdate);
 
