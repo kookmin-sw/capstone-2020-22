@@ -244,7 +244,7 @@ public class InfoActivity extends AppCompatActivity
                 .listener(InfoActivity.this)
                 .key("AIzaSyD2Io1Z7bC1ogUPoY2mOPp8SKjRCpupDPM")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(1000) //500 미터 내에서 검색
+                .radius(1000) //1000 미터 내에서 검색
                 .type(PlaceType.CAFE) //카페
                 .build()
                 .execute();
@@ -425,9 +425,7 @@ public class InfoActivity extends AppCompatActivity
                     count++;
                 }
 
-
             }
-
 
         }
 
