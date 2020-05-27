@@ -128,7 +128,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         database = FirebaseDatabase.getInstance();
-        glassRef = database.getReference("users/" + userID);
+        glassRef = database.getReference("users/" + userID); //로그인한 사용자의 DB 노드를 glassRef로 담음.
 
         mapView = findViewById(R.id.mapView); //mapbox의 지도 표현
         mapView.onCreate(savedInstanceState);
@@ -144,9 +144,9 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .directionsRoute(currentRoute)
                         .build();
-                // Call this method with Context from within an Activity
+
                 NavigationLauncher.startNavigation(NavigationActivity.this, options);
-                //네비게이션 실행 (MainActivity에서)
+                //네비게이션 실행
             }
         });
         arButton = findViewById(R.id.ArButton);
@@ -215,27 +215,13 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
             mapboxMap.removeMarker(mapMarker);
 
         mapMarker = mapboxMap.addMarker(new MarkerOptions().position(point));
-        destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-//        Query glassQuery = database.getReference().orderByChild("uid").equalTo(userID);
-//        glassQuery.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for(DataSnapshot datas: dataSnapshot.getChildren()) {
-//                    glassKey = datas.getRef().toString();
-//                    Log.i(TAG, glassKey);
-//                    glassRef = database.getReference(glassKey).getParent();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+        destinationPos = Point.fromLngLat(point.getLongitude(), point.getLatitude()); //클릭한 곳의 위도와 경도를 Point 형식으로 destinationPos에 담음
+
         if(glassRef != null) {
             glassRef.child("destination").child("latitude").setValue(destinationPos.latitude());
             glassRef.child("destination").child("longitude").setValue(destinationPos.longitude());
-        }
+        } // 사용자 db노드 하위에 destination으로 그 하위에는 위도와 경도를 저장.
+
         showSearchItem(myPos, destinationPos);
 
         return false;
@@ -326,7 +312,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                                 new Feature[]{Feature.fromJson(selectedCarmenFeature.toJson())}));
                     }
                 }
-                startButton.setEnabled(true);
+                startButton.setEnabled(true); // 목적지가 없으면 버튼이 비활성화, 목적지가 선택되었으니 버튼 활성화.
 
                 LatLng desPos = new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
                         ((Point) selectedCarmenFeature.geometry()).longitude()); //검색어를 클릭할 시 그 위치의 위도 경도를 desPos에 저장.
@@ -348,38 +334,28 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         }
     }
 
-    public void getPointFromGeoCoder(String destinationString) {
-        Log.e(TAG,"지오코더 실행");
-        Geocoder geocoder = new Geocoder(this);
-        List<Address> listAddress = null;
-        try {
-            listAddress = geocoder.getFromLocationName(destinationString, 1);
-            destinationLng = listAddress.get(0).getLongitude();
-            destinationLat = listAddress.get(0).getLatitude();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
-
-// Get an instance of the component
+            // Get an instance of the component
             LocationComponent locationComponent = mapboxMap.getLocationComponent();
-// Activate with options
+
+            // Activate with options
             locationComponent.activateLocationComponent(
                     LocationComponentActivationOptions.builder(this, loadedMapStyle).build());
-// Enable to make component visible
+
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
-// Set the component's camera mode
+
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING);
-// Set the component's render mode
+
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
             initLocationEngine();
-        } else {
+        }
+        else {
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);
         }
@@ -420,12 +396,8 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
         LatLng[] points = new LatLng[coordinates.size()];
         for (int i = 0; i < coordinates.size(); i++) {
             points[i] = new LatLng(coordinates.get(i).latitude(), coordinates.get(i).longitude());
-
             Log.e(TAG, "Error: " + points[i]);
         }
-        // Draw Points on MapView
-//        mapboxMap.clear();
-//      mapboxMap.addPolyline(new PolylineOptions().add(points).color(Color.parseColor("#3bb2d0")).width(5));
     }
 
 
@@ -583,21 +555,11 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                     remainText.setText(String.valueOf(time) + "분\n" + String.valueOf(distance) + "km");
 
                     // 시간과 거리를 db에 저장
-
                     if(glassRef != null) {
                         glassRef.child("time").setValue(time);
                         glassRef.child("distance").setValue(distance);
                         glassRef.child("Location").setValue(location);
                     }
-//                    DatabaseReference time_db = database.getReference("time");
-//                    DatabaseReference distance_db = database.getReference("distance");
-//                    DatabaseReference destination_db = database.getReference("destination");
-//                    DatabaseReference location_db = database.getReference("Location");
-//                    destination_db.child("latitude").setValue(destinationPos.latitude());
-//                    destination_db.child("longitude").setValue(destinationPos.longitude());
-//                    time_db.setValue(time);
-//                    distance_db.setValue(distance);
-//                    location_db.setValue(location);
                 }
             }
         }
