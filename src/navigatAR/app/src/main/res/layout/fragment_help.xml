@@ -16,7 +16,7 @@
         android:text="@string/help1"
         android:gravity="center"
         android:textSize="40sp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:textColor="@color/Navigatar_color"
         android:layout_marginBottom="50dp"/>
     <TextView
