@@ -96,6 +96,8 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
     public static double lat, lng;
     private Marker mapMarker;
     private Button startButton;
+    private Button infoButton;
+
     private int time;
     private double distance;
     private TextView remainText;
@@ -138,7 +140,14 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 //네비게이션 실행
             }
         });
-
+        infoButton = findViewById(R.id.InfoButton);
+        infoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(NavigationActivity.this, InfoActivity.class);
+                startActivity(intent);
+            }
+        });
         ImageButton myLoc_button = findViewById(R.id.myLoc_button); // 내 위치로 가는 버튼
         myLoc_button.setOnClickListener(new View.OnClickListener(){
             @Override

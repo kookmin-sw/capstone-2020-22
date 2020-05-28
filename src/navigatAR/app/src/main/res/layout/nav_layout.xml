@@ -49,5 +49,12 @@
         android:alpha="0.5"
         android:enabled="false"
         android:text="Start navigation" />
+    <Button
+        android:id="@+id/InfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|left"
+        android:alpha="0.5"
+        android:text="주변정보" />
 
 </FrameLayout>
