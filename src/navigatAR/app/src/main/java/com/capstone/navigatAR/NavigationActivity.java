@@ -6,8 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,20 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -71,7 +63,6 @@ import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Locale;
@@ -102,11 +93,9 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
     private Point myPos;
     private Point destinationPos;
-    double destinationLng,destinationLat;
     public static double lat, lng;
     private Marker mapMarker;
     private Button startButton;
-    private Button arButton;
     private int time;
     private double distance;
     private TextView remainText;
@@ -147,14 +136,6 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
 
                 NavigationLauncher.startNavigation(NavigationActivity.this, options);
                 //네비게이션 실행
-            }
-        });
-        arButton = findViewById(R.id.ArButton);
-        arButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -200,7 +181,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 // Create an empty GeoJSON source using the empty feature collection
                 setUpSource(style);
 
-// Set up a new symbol layer for displaying the searched location's feature coordinates
+                // Set up a new symbol layer for displaying the searched location's feature coordinates
                 setupLayer(style);
             }
         });
@@ -552,7 +533,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                     distance = (currentRoute.distance()/1000);
                     //목적지까지의 거리를 m로 받아옴
                     distance = Math.round(distance*100)/100.0;
-                    remainText.setText(String.valueOf(time) + "분\n" + String.valueOf(distance) + "km");
+                    remainText.setText("남은 시간 : " + String.valueOf(time) + "분\n남은 거리 : " + String.valueOf(distance) + "km");
 
                     // 시간과 거리를 db에 저장
                     if(glassRef != null) {
