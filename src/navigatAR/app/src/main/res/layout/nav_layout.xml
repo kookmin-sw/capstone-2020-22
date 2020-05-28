@@ -30,7 +30,7 @@
         android:text=""
         android:textColor="#ffffff"
         android:background="#80000000"
-        android:textSize="30sp"/>
+        android:textSize="20sp"/>
     <ImageButton
         android:id="@+id/myLoc_button"
         android:src="@drawable/buttonshape"
@@ -40,14 +40,7 @@
         android:background="#00ff0000"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="5dp"/>
-    <Button
-        android:id="@+id/ArButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|right"
-        android:alpha="0.5"
 
-        android:text="AR"/>
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
@@ -56,5 +49,12 @@
         android:alpha="0.5"
         android:enabled="false"
         android:text="Start navigation" />
+    <Button
+        android:id="@+id/InfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|left"
+        android:alpha="0.5"
+        android:text="주변정보" />
 
 </FrameLayout>

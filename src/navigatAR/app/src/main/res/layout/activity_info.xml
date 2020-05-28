@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".InfoActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="314dp"
+        android:layout_weight="0.8"
+        tools:context=".MapsActivity" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:weightSum="3.0">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:weightSum="2.0">
+
+            <Button
+                android:id="@+id/restaurant"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="음식점" />
+
+            <Button
+                android:id="@+id/cafe"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="카페" />
+
+            <Button
+                android:id="@+id/subway_station"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="지하철역"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:weightSum="3.0">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:weightSum="2.0">
+
+            <Button
+                android:id="@+id/movie_theater"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="영화관" />
+
+            <Button
+                android:id="@+id/pharmacy"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+
+                android:text="약국" />
+
+            <Button
+                android:id="@+id/bank"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="은행" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
