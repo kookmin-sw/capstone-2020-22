@@ -29,19 +29,19 @@
 
             <Button
                 android:id="@+id/restaurant"
-                android:layout_width="110dp"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:text="음식점" />
 
             <Button
                 android:id="@+id/cafe"
-                android:layout_width="110dp"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:text="카페" />
 
             <Button
                 android:id="@+id/subway_station"
-                android:layout_width="110dp"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:text="지하철역"/>
 
@@ -63,20 +63,20 @@
 
             <Button
                 android:id="@+id/movie_theater"
-                android:layout_width="110dp"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:text="영화관" />
 
             <Button
                 android:id="@+id/pharmacy"
-                android:layout_width="110dp"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
 
                 android:text="약국" />
 
             <Button
                 android:id="@+id/bank"
-                android:layout_width="110dp"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:text="은행" />
 
