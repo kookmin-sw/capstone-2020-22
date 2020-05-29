@@ -5,5 +5,11 @@
     <string name="help3">만든이 : 구윤모, 김종현, 김명진, 임다운, 오몽, 정현구 </string>
     <string name="help4">대여장소 : 미래관 4층 캡스톤 22조</string>
     <string name="help5">사용법 : 로그인 후 Start Navigation을 누르고 사용</string>
-    <string name="help6">http://github.com/kookmin-sw/capstone-2020-22</string>
+    <string name="help6">아직미정</string>
+    <string name="home1">아직미정</string>
+    <string name="home2">아직미정</string>
+    <string name="home3">아직미정</string>
+    <string name="home4">아직미정</string>
+    <string name="home5">아직미정</string>
+
 </resources>
