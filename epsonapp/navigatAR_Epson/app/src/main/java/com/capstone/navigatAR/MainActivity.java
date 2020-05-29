@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         if(dataSnapshot.getValue(double.class) != null){
                             double value = dataSnapshot.getValue(double.class);
                             Log.e(TAG,"distance is " + value);
-                            distanceText.setText("남은 거리 : " + String.valueOf(value) + "m");
+                            distanceText.setText("남은 거리 : " + String.valueOf(value) + "km");
                         }else{
                             Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
                         }
