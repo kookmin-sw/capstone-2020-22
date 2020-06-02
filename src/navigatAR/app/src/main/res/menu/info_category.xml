@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/restaurant"
+        android:icon="@drawable/baseline_power_settings_new_black_18dp"
+        android:title="음식점"/>
+    <item
+        android:id="@+id/cafe"
+        android:icon="@drawable/baseline_home_black_18dp"
+        android:title="카페"/>
+    <item
+        android:id="@+id/subway_station"
+        android:icon="@drawable/baseline_help_outline_black_18dp"
+        android:title="지하철역"/>
+    <item
+        android:id="@+id/movie_theater"
+        android:icon="@drawable/baseline_help_outline_black_18dp"
+        android:title="영화관"/>
+    <item
+        android:id="@+id/pharmacy"
+        android:icon="@drawable/baseline_help_outline_black_18dp"
+        android:title="약국"/>
+    <item
+        android:id="@+id/bank"
+        android:icon="@drawable/baseline_help_outline_black_18dp"
+        android:title="은행"/>
+</menu>
