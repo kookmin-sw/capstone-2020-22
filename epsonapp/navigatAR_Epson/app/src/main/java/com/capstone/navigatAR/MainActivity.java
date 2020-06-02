@@ -2,6 +2,7 @@ package com.capstone.navigatAR;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -62,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
                         }else{
                             Toast.makeText(MainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
                         }
+                        if(dataSnapshot.getValue(double.class) <=0.05 && dataSnapshot.getValue(double.class)>0.0){
+                            final Toast arriveMessage = Toast.makeText(getApplicationContext(), String.format("목적지가 50m 이내에 있습니다."), Toast.LENGTH_SHORT);
+                            arriveMessage.show();
+                            new CountDownTimer(5000,1000){
+                                public void onTick(long miilsUntilFinished){arriveMessage.show();}
+                                public void onFinish(){arriveMessage.show();}
+                            }.start();
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -86,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.w("FireBaseData", "loadPost:onCancelled", databaseError.toException());
                     }
                 });
+
             }
 
             @Override
@@ -147,5 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        this.architectView.callJavascript("loadLogin()");
 //        this.architectView.callJavascript("loadWelcome()");
+    }
+    public int getGlassNum(){
+        return glassNum;
     }
 }
