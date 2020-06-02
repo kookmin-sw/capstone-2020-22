@@ -11,6 +11,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -99,6 +102,7 @@ public class InfoActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -168,6 +172,51 @@ public class InfoActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
     }
 
+    //메뉴 버튼
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.info_category, menu);
+
+        return true;
+    }
+
+    // 메뉴 버튼
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item)
+    {
+        Toast toast = Toast.makeText(getApplicationContext(),"", Toast.LENGTH_LONG);
+
+        switch(item.getItemId())
+        {
+            case R.id.restaurant:
+                toast.setText("Select Menu1");
+                break;
+            case R.id.cafe:
+                toast.setText("Select Menu2");
+                break;
+            case R.id.subway_station:
+                toast.setText("Select Menu3");
+                break;
+            case R.id.movie_theater:
+                toast.setText("Select Menu3");
+                break;
+            case R.id.pharmacy:
+                toast.setText("Select Menu3");
+                break;
+            case R.id.bank:
+                toast.setText("Select Menu3");
+                break;
+        }
+
+        toast.show();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // 구글 맵
     @Override
     public void onPlacesFailure(PlacesException e) {
 
