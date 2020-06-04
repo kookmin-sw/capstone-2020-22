@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -102,11 +103,15 @@ public class InfoActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_info);
+
+        //액션 바
+        getSupportActionBar().setTitle("aa");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         previous_marker = new ArrayList<Marker>();
 
@@ -176,10 +181,7 @@ public class InfoActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.info_category, menu);
-
+        getMenuInflater().inflate(R.menu.info_category,menu);
         return true;
     }
 
@@ -192,22 +194,22 @@ public class InfoActivity extends AppCompatActivity
         switch(item.getItemId())
         {
             case R.id.restaurant:
-                toast.setText("Select Menu1");
+                showPlaceInformation_restaurant(clickPosition);
                 break;
             case R.id.cafe:
-                toast.setText("Select Menu2");
+                showPlaceInformation_cafe(clickPosition);
                 break;
             case R.id.subway_station:
-                toast.setText("Select Menu3");
+                showPlaceInformation_subway_station(clickPosition);
                 break;
             case R.id.movie_theater:
-                toast.setText("Select Menu3");
+                showPlaceInformation_movie_theater(clickPosition);
                 break;
             case R.id.pharmacy:
-                toast.setText("Select Menu3");
+                showPlaceInformation_pharmacy(clickPosition);
                 break;
             case R.id.bank:
-                toast.setText("Select Menu3");
+                showPlaceInformation_bank(clickPosition);
                 break;
         }
 
