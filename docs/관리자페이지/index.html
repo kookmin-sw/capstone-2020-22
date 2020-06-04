@@ -119,8 +119,14 @@
 	
 	// 파이어 베이스 초기화 코드
 	var config = {
-		보안을 위해서 생략
-	}
+		apiKey: "AIzaSyBasa4OmSWGWKEqMMcuIoKOTV481w22N5s",
+    		authDomain: "navigatar-37245.firebaseapp.com",
+    		databaseURL: "https://navigatar-37245.firebaseio.com",
+    		projectId: "navigatar-37245",
+    		storageBucket: "navigatar-37245.appspot.com",
+    		messagingSenderId: "767617153482",
+    		appId: "1:767617153482:web:c32ac101e87de4ff383733",
+    		measurementId: "G-XXK04C12DS" };
 
 	firebase.initializeApp(config);
 	firebaseEmailAuth = firebase.auth(); // 파이어베이스 인증 객체
@@ -160,8 +166,8 @@
 	//alert(snapshot.val().name)
     	});
  
-	// PIN 번호 발급 페이지로 이동
-	window.location.href = "/index.html"
+	// 유저 조회 페이지로 이동
+	window.location.href = "/issue.html"
 	}
 	</script>
   
