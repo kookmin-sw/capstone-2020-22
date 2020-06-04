@@ -17,8 +17,8 @@
          			</div>
                    		<div class="collapse navbar-collapse" id="navbar-collapse-1">
             			<ul class="nav navbar-nav">
-                              			<li class="active"> <a href="/">조회</a> </li>
                				<li> <a href="/issue.html">가입</a> </li>
+                              			<li class="active"> <a href="/">조회</a> </li>
                      			</ul>
                    		</div>
        
@@ -48,16 +48,16 @@
 	var firebaseDatabase; // 파이어베이스 db 모듈 전역변수
 	var userInfo; // 가입한 유저의 정보. object 타입
 	
+	var key;
+
+	function deleteUser() {
+			firebaseDatabase.ref("users/" + key).remove()
+			alert(" 해당 사용자가 삭제되었습니다. ")
+			}
+
 	// 파이어 베이스 초기화 코드
    	var config = {
-      		apiKey: "AIzaSyBZEM5WsbwS5frsqgpvxZMxMW1ZCaTV4oE",
-          		authDomain: "navi-9e6bf.firebaseapp.com",
-          		databaseURL: "https://navi-9e6bf.firebaseio.com",
-          		projectId: "navi-9e6bf",
-          		storageBucket: "navi-9e6bf.appspot.com",
-          		messagingSenderId: "15852780522",
-          		appId: "1:15852780522:web:f9299965f2b215a7995093",
-          		measurementId: "G-VQ4TSBZC0R" };
+      		apiKey: 비밀 };
        
    		firebase.initializeApp(config);
 		firebaseEmailAuth = firebase.auth(); // 파이어베이스 인증 객체
@@ -66,20 +66,24 @@
 		var userListRef = firebaseDatabase.ref("users")
 		userListRef.on('child_added', function(data){
 	
-      			var key = data.key;
+      			key = data.key;
       			var Data = data.val();
 			var num = Data.num;		
       			var tel = Data.tel;
+
 	
       			// 유저리스트 시각화
       			var html =
 				"<div class=\"media-body\">" + key +
+				"<div class=\"media-body\">" +
         				"<h4 class=\"media-heading\">" + tel +
         				" <span STYLE=\"color: green; font-size: 5pt\">" + " 글래스 번호 " + num + "</span></h4>" +
-        				"<p>" + " 사용 기간 " + "</p></div>" +
-        				"<hr>";
+        				"<p>" + " 사용 기간 " + "</p>" +
+				"<button class=\"btn-primary\" onclick=\"deleteUser();\"> 삭제 </button></div></div>" +
+				"<hr>";
 
       			$(".userList").append(html);
+		
 		});
 
 	</script>
