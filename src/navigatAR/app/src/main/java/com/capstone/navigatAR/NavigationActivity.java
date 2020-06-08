@@ -536,7 +536,7 @@ public class NavigationActivity extends AppCompatActivity implements Permissions
                 if (activity.mapboxMap != null && result.getLastLocation() != null) {
                     activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
-                if(destinationPos!=null && currentRoute.duration()!=null && currentRoute.distance()!=null){ //실시간 남은 거리 및 시간
+                if(destinationPos!=null && currentRoute!=null && currentRoute.distance()!=null){ //실시간 남은 거리 및 시간
                     time = (int) (currentRoute.duration()/60);
                     //예상 시간을초단위로 받아옴
                     distance = (currentRoute.distance()/1000);
