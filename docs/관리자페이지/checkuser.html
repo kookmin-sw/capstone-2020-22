@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>NavigatAR</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- 네비게이션 바 시작 -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+         			<div class="navbar-header">
+            			<a class="navbar-brand" href="/index.html">NavigatAR</a>
+         			</div>
+                   		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+            			<ul class="nav navbar-nav">
+               				<li> <a href="/issue.html">가입</a> </li>
+                              			<li class="active"> <a href="/">조회</a> </li>
+                     			</ul>
+                   		</div>
+       
+            	</div>
+   	</nav>
+   	<br> <br> <br> <br> <br>
+    	<!-- 네비게이션 바 끝 -->
+
+	<!-- 유저리스트 출력하기 -->
+  	<div class="container">
+    		<hr>
+		<h3> 사용자 목록 </h3>
+    		<br>
+    		<!-- 유저 리스트 출력되는 곳 -->
+    		<div class="userList"></div>
+  	</div>
+
+<!--스크립트 부분. 자신의 스크립트 코드로 변경하세요! -->
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+	
+	<script>
+
+	var firebaseEmailAuth; // 파이어베이스 email 인증 모듈 전역변수
+	var firebaseDatabase; // 파이어베이스 db 모듈 전역변수
+	var userInfo; // 가입한 유저의 정보. object 타입
+	
+	var key;
+
+	function deleteUser() {
+			firebaseDatabase.ref("users/" + key).remove()
+			alert(" 해당 사용자가 삭제되었습니다. ")
+			}
+
+	// 파이어 베이스 초기화 코드
+   	var config = {
+      		apiKey: 비밀 };
+       
+   		firebase.initializeApp(config);
+		firebaseEmailAuth = firebase.auth(); // 파이어베이스 인증 객체
+		firebaseDatabase = firebase.database(); // 파이어베이스 데이터베이스 객체
+    
+		var userListRef = firebaseDatabase.ref("users")
+		userListRef.on('child_added', function(data){
+	
+      			key = data.key;
+      			var Data = data.val();
+			var num = Data.num;		
+      			var tel = Data.tel;
+
+	
+      			// 유저리스트 시각화
+      			var html =
+				"<div class=\"media-body\">" + key +
+				"<div class=\"media-body\">" +
+        				"<h4 class=\"media-heading\">" + tel +
+        				" <span STYLE=\"color: green; font-size: 5pt\">" + " 글래스 번호 " + num + "</span></h4>" +
+        				"<p>" + " 사용 기간 " + "</p>" +
+				"<button class=\"btn-primary\" onclick=\"deleteUser();\"> 삭제 </button></div></div>" +
+				"<hr>";
+
+      			$(".userList").append(html);
+		
+		});
+
+	</script>
+
+</body>
+
+</html>
