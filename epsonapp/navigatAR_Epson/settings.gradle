@@ -1,0 +1,2 @@
+rootProject.name='navigatAR_Epson'
+include ':app'
