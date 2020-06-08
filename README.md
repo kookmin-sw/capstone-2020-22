@@ -80,8 +80,8 @@ Especially first-time visitors and tourists face more of these problems.
 As a main function, if you enter the destination based on the current location in the application, an arrow leads the way in the AR glass.
 In addition, it provides more convenient tourism services by providing tourist information on the surrounding areas such as attractions, accommodations and restaurants.
 
-### 4. 소개 영상
+### 4. 최종 영상
 
-[![Video Label](http://img.youtube.com/vi/BuSh0ZfSmU0/0.jpg)](https://youtu.be/BuSh0ZfSmU0?t=0s)
+[![Video Label](http://img.youtube.com/vi/W1Hh18yJixM/0.jpg)](https://www.youtube.com/watch?v=W1Hh18yJixM&feature=share)
 
 
