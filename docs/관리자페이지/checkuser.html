@@ -49,7 +49,7 @@
 	var userInfo; // 가입한 유저의 정보. object 타입
 	
 	var key;
-
+	
 	function deleteUser() {
 			firebaseDatabase.ref("users/" + key).remove()
 			alert(" 해당 사용자가 삭제되었습니다. ")
@@ -57,7 +57,7 @@
 
 	// 파이어 베이스 초기화 코드
    	var config = {
-      		apiKey: 비밀 };
+      		비밀 };
        
    		firebase.initializeApp(config);
 		firebaseEmailAuth = firebase.auth(); // 파이어베이스 인증 객체
@@ -79,7 +79,7 @@
         				"<h4 class=\"media-heading\">" + tel +
         				" <span STYLE=\"color: green; font-size: 5pt\">" + " 글래스 번호 " + num + "</span></h4>" +
         				"<p>" + " 사용 기간 " + "</p>" +
-				"<button class=\"btn-primary\" onclick=\"deleteUser();\"> 삭제 </button></div></div>" +
+				"<button class=\"btn-primary\" id=\"" + key + "\" onclick=\"deleteUser();\"> 삭제 </button></div></div>" +
 				"<hr>";
 
       			$(".userList").append(html);
