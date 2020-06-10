@@ -33,7 +33,7 @@
 ```
 이름 : 임다운 ( ldu0131@naver.com )
 학번 : 20153219
-역할 : UI 설계 및 디자인, 어플 제작 및 API 개발 
+역할 : UI 설계 및 디자인, 웹 & 어플 제작 및 API 개발 
 ```
 
 <img src=https://user-images.githubusercontent.com/51355048/77217129-62b22d80-6b63-11ea-9c11-ee7f7e67d2a8.jpg width="300" height="400"/>
@@ -80,7 +80,7 @@ Especially first-time visitors and tourists face more of these problems.
 As a main function, if you enter the destination based on the current location in the application, an arrow leads the way in the AR glass.
 In addition, it provides more convenient tourism services by providing tourist information on the surrounding areas such as attractions, accommodations and restaurants.
 
-### 4. 최종 영상
+### 4. 시연 영상
 
 [![Video Label](http://img.youtube.com/vi/W1Hh18yJixM/0.jpg)](https://www.youtube.com/watch?v=W1Hh18yJixM&feature=share)
 
